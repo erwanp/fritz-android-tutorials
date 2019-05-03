@@ -7,15 +7,15 @@ Fritz is the machine learning platform for iOS and Android developers. [Sign up 
 
 **Vision API: Prebuilt models that you can simply drop into your apps:**
 
-- [Image Segmentation](https://www.fritz.ai/features/image-segmentation.html): Create pixel level masks of different objects in a scene.
-- [Image Labeling](https://www.fritz.ai/features/image-labeling.html): Classify different objects in an video or image.
-- [Pose Estimation](https://www.fritz.ai/features/pose-estimation.html): Identify and track a person's body position.
-- [Object Detection](https://www.fritz.ai/features/object-detection.html): Detect multiple objects and track their location.
-- [Style Transfer](https://www.fritz.ai/features/style-transfer.html): Transform photos and videos into artistic masterpieces.
+- [Image Segmentation](https://www.fritz.ai/features/image-segmentation.html): Create pixel level masks of different objects in a scene. ((code)[HeartbeatDemoApp/app/src/main/java/ai/fritz/heartbeat/activities/vision/ImageSegmentationActivity.java])
+- [Image Labeling](https://www.fritz.ai/features/image-labeling.html): Classify different objects in an video or image.((code)[HeartbeatDemoApp/app/src/main/java/ai/fritz/heartbeat/activities/vision/ImageLabelingActivity.java])
+- [Pose Estimation](https://www.fritz.ai/features/pose-estimation.html): Identify and track a person's body position.((code)[HeartbeatDemoApp/app/src/main/java/ai/fritz/heartbeat/activities/vision/PoseEstimationActivity.java])
+- [Object Detection](https://www.fritz.ai/features/object-detection.html): Detect multiple objects and track their location.((code)[HeartbeatDemoApp/app/src/main/java/ai/fritz/heartbeat/activities/vision/ObjectDetectionActivity.java])
+- [Style Transfer](https://www.fritz.ai/features/style-transfer.html): Transform photos and videos into artistic masterpieces.((code)[HeartbeatDemoApp/app/src/main/java/ai/fritz/heartbeat/activities/vision/StyleTransferActivity.java])
 
 **Custom Models: Deploy, Monitor, and Update your own models:**
 
-We currently support both TensorFlow Lite and TensorFlow Mobile for Android.
+We currently support both TensorFlow Lite ((code)[HeartbeatDemoApp/app/src/main/java/ai/fritz/heartbeat/activities/custommodel/CustomTFLiteActivity.java]) and TensorFlow Mobile ((code)[HeartbeatDemoApp/app/src/main/java/ai/fritz/heartbeat/activities/custommodel/CustomTFMobileActivity.java]) for Android.
 
 - [Analytics and Monitoring](https://www.fritz.ai/features/analytics-monitoring.html): Monitor machine learning models running on-device with Fritz.
 - [Model Management](https://www.fritz.ai/features/model-management.html): Iterate on your ML models over-the-air, without having to release your app.
@@ -27,9 +27,9 @@ If you are new to Fritz, I'd recommend getting started with our Heartbeat Demo A
 
 - Heartbeat Demo App - Our kitchen sink project showcases all on-device Vision APIs and Custom Model usage.
 - Camera Boilerplate App - Our lightweight camera app to quickly get started implementing features with the camera.
-- Background Replacement App [People Segmentation] - An example app to replace the background of portraits.
-- Hair Coloring App [Hair Segmentation] - An example app to replace a user's hair color.
-- Pet Monitoring App [Object Detection] - An example app to track dogs and cats with the camera.
+- Background Replacement App [People Segmentation] - An example app to replace the background of portraits ((tutorial)[https://heartbeat.fritz.ai/image-segmentation-for-android-smart-background-replacement-with-fritz-a09d8b0592a4]).
+- Hair Coloring App [Hair Segmentation] - An example app to replace a user's hair color ((tutorial)[https://heartbeat.fritz.ai/embrace-your-new-look-with-hair-segmentation-by-fritz-now-available-for-android-developers-f20f5b4e9ae1]).
+- Pet Monitoring App [Object Detection] - An example app to track dogs and cats with the camera ((tutorial)[https://medium.freecodecamp.org/a-guide-to-object-detection-with-fritz-build-a-pet-monitoring-app-in-android-with-machine-learning-a8ed500978e5]).
 
 ## Latest SDK version
 
