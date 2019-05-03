@@ -5,6 +5,8 @@
 
 Fritz is the machine learning platform for iOS and Android developers. This is our kitchen-sink application that showcases all the different ML features provided by Fritz as well as examples on using custom models.
 
+To download the latest version from the Google Play Store, [please visit our app page](https://play.google.com/store/apps/details?id=ai.fritz.heartbeat&hl=en_US).
+
 **Vision API: Prebuilt models that you can simply drop into your apps:**
 
 - [Image Segmentation](https://www.fritz.ai/features/image-segmentation.html): Create pixel level masks of different objects in a scene.
@@ -22,6 +24,7 @@ We currently support both TensorFlow Lite and TensorFlow Mobile for Android.
 - [Model Protection](https://www.fritz.ai/features/model-protection.html): Use model protection to keep models from being tampered-with or stolen.
 
 ## Requirements
+
 - Android Studio 3.2 or above
 - Android device in developer model (USB debugging enabled)
 
@@ -37,7 +40,7 @@ In order to use Fritz, please [register for a free account](https://app.fritz.ai
 git clone https://github.com/fritzlabs/fritz-android-tutorials.git
 ```
 
-In Android Studio, choose "Open an existing Android Studio project" and select ``fritz-demo-app``.
+In Android Studio, choose "Open an existing Android Studio project" and select `fritz-demo-app`.
 
 **Step 3: Build the Android Studio Project**
 
@@ -45,7 +48,7 @@ Select "Build > Make Project" from the top nav. Download any missing libraries i
 
 **Step 4: Install the app onto your device**
 
-With your Android device connected, select ``Run > Run App`` from the top nav. After it's installed, select any of the options to try out the different ML features. When running the app for the first time, you'll have to give permissions to access the camera.
+With your Android device connected, select `Run > Run App` from the top nav. After it's installed, select any of the options to try out the different ML features. When running the app for the first time, you'll have to give permissions to access the camera.
 
 ## Official Documentation
 
@@ -56,8 +59,7 @@ With your Android device connected, select ``Run > Run App`` from the top nav. A
 ## Help
 
 For any questions or issues, you can:
+
 - Submit an issue on this repo
 - Go to our [Help Center](https://docs.fritz.ai/help-center/index.html)
 - Message us directly in [Slack](https://join.slack.com/t/heartbeat-by-fritz/shared_invite/enQtNTY5NDM2MTQwMTgwLTAyODE3MmQzZjU2NWE5MDNmYTgwM2E1MjU5Y2Y2NmI2YTlkMTMwZTAwYTAwMzQ5NzQ2NDBhZjhmYjU2YWY3OGU)
-
-
