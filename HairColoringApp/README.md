@@ -39,7 +39,7 @@ Select "Build > Make Project" from the top nav. Download any missing libraries i
 
 **Step 4: Install the app onto your device**
 
-With your Android device connected, select `Run > Run App` from the top nav. hen running the app for the first time, you'll have to give permissions to access the camera. After the app is installed and running, point your camera at someone's hair to automatically color it.
+With your Android device connected, select `Run > Run App` from the top nav. When running the app for the first time, you'll have to give permissions to access the camera. After the app is installed and running, point your camera at someone's hair to automatically color it.
 
 ## Official Documentation
 
