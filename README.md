@@ -15,7 +15,7 @@ Fritz is the machine learning platform for iOS and Android developers. [Sign up 
 
 **Custom Models: Deploy, Monitor, and Update your own models:**
 
-We currently support both TensorFlow Lite ([code](HeartbeatDemoApp/app/src/main/java/ai/fritz/heartbeat/activities/custommodel/CustomTFLiteActivity.java)) and TensorFlow Mobile [code]([HeartbeatDemoApp/app/src/main/java/ai/fritz/heartbeat/activities/custommodel/CustomTFMobileActivity.java)) for Android.
+We currently support both TensorFlow Lite ([code](HeartbeatDemoApp/app/src/main/java/ai/fritz/heartbeat/activities/custommodel/CustomTFLiteActivity.java)) and TensorFlow Mobile ([code]([HeartbeatDemoApp/app/src/main/java/ai/fritz/heartbeat/activities/custommodel/CustomTFMobileActivity.java)) for Android.
 
 - [Analytics and Monitoring](https://www.fritz.ai/features/analytics-monitoring.html): Monitor machine learning models running on-device with Fritz.
 - [Model Management](https://www.fritz.ai/features/model-management.html): Iterate on your ML models over-the-air, without having to release your app.
