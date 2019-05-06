@@ -5,7 +5,7 @@
 
 In this app, we automatically blend a color mask with the user's hair, transforming it to red.
 
-![](./images/hair_segmentation.png)
+![](images/hair_segmentation.png)
 
 For the full tutorial, visit [our post on Heartbeat](https://heartbeat.fritz.ai/embrace-your-new-look-with-hair-segmentation-by-fritz-now-available-for-android-developers-f20f5b4e9ae1).
 

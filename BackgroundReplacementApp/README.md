@@ -5,7 +5,7 @@
 
 In this app, we create a mask of a person and then replace the background with any picture in the camera gallery.
 
-![](./images/background_changer.png)
+![](images/background_changer.png)
 
 For the full tutorial, visit [our post on Heartbeat](https://heartbeat.fritz.ai/image-segmentation-for-android-smart-background-replacement-with-fritz-a09d8b0592a4).
 

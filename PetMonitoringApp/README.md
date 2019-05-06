@@ -5,7 +5,7 @@
 
 In this app, we track cats and dogs from a camera feed.
 
-![](./images/pet_detection.png)
+![](images/pet_detection.png)
 
 For the full tutorial, visit [our post on Heartbeat](https://medium.freecodecamp.org/a-guide-to-object-detection-with-fritz-build-a-pet-monitoring-app-in-android-with-machine-learning-a8ed500978e5).
 
