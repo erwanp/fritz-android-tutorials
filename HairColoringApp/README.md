@@ -5,7 +5,7 @@
 
 In this app, we automatically blend a color mask with the user's hair, transforming it to red.
 
-<img src="https://github.com/fritzlabs/fritz-android-tutorials/blob/master/HairColoringApp/images/hair_segmentation.png" width="662" height="295">
+![](./images/hair_segmentation.png)
 
 For the full tutorial, visit [our post on Heartbeat](https://heartbeat.fritz.ai/embrace-your-new-look-with-hair-segmentation-by-fritz-now-available-for-android-developers-f20f5b4e9ae1).
 
@@ -25,7 +25,7 @@ This example app uses the on-device Hair Segmentation API for Android.
 
 In order to use Fritz, please [register for a free account](https://app.fritz.ai/register).
 
-**Step 2: Clone / Fork the fritz-android-tutorials repository and open the HairColoringApp in Android Stuido**
+**Step 2: Clone / Fork the fritz-android-tutorials repository and open the HairColoringApp in Android Studio**
 
 ```
 git clone https://github.com/fritzlabs/fritz-android-tutorials.git

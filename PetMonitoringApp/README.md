@@ -5,7 +5,7 @@
 
 In this app, we track cats and dogs from a camera feed.
 
-<img src="https://github.com/fritzlabs/fritz-android-tutorials/blob/master/PetMonitoringApp/images/pet_detection.png" width="662" height="295">
+![](./images/pet_detection.png)
 
 For the full tutorial, visit [our post on Heartbeat](https://medium.freecodecamp.org/a-guide-to-object-detection-with-fritz-build-a-pet-monitoring-app-in-android-with-machine-learning-a8ed500978e5).
 
@@ -25,7 +25,7 @@ This example app uses the on-device Object Detection API for Android.
 
 In order to use Fritz, please [register for a free account](https://app.fritz.ai/register).
 
-**Step 2: Clone / Fork the fritz-android-tutorials repository and open the PetMonitoringApp in Android Stuido**
+**Step 2: Clone / Fork the fritz-android-tutorials repository and open the PetMonitoringApp in Android Studio**
 
 ```
 git clone https://github.com/fritzlabs/fritz-android-tutorials.git

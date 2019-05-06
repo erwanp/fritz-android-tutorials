@@ -5,7 +5,7 @@
 
 In this app, we create a mask of a person and then replace the background with any picture in the camera gallery.
 
-<img src="https://github.com/fritzlabs/fritz-android-tutorials/blob/master/BackgroundReplacementApp/images/background_changer.png" width="662" height="295">
+![](./images/background_changer.png)
 
 For the full tutorial, visit [our post on Heartbeat](https://heartbeat.fritz.ai/image-segmentation-for-android-smart-background-replacement-with-fritz-a09d8b0592a4).
 
@@ -25,7 +25,7 @@ This example app uses the on-device People Segmentation API for Android.
 
 In order to use Fritz, please [register for a free account](https://app.fritz.ai/register).
 
-**Step 2: Clone / Fork the fritz-android-tutorials repository and open the BackgroundReplacementApp app in Android Stuido**
+**Step 2: Clone / Fork the fritz-android-tutorials repository and open the BackgroundReplacementApp app in Android Studio**
 
 ```
 git clone https://github.com/fritzlabs/fritz-android-tutorials.git
