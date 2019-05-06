@@ -1,42 +1,50 @@
-# Android Tutorials by Fritz
+# Examples for Android
 
 [ ![Codeship Status for fritzlabs/fritz-sdk-android](https://app.codeship.com/projects/c74152e0-65d1-0136-2d69-32e87736c6c6/status?branch=master)](https://app.codeship.com/projects/297281)
 [![Twitter](https://img.shields.io/badge/twitter-@fritzlabs-blue.svg?style=flat)](http://twitter.com/fritzlabs)
 
-Fritz is the machine learning platform for iOS and Android developers. Teach your mobile apps to to see, hear, sense, and think.
+Fritz is the machine learning platform for iOS and Android developers. [Sign up for a free account](https://app.fritz.ai/register) to see how you can include machine learning features in your app.
 
-There are 2 sample apps to help get you get started with the SDK:
+**Vision API: Prebuilt models that you can simply drop into your apps:**
 
-- Fritz demo app - Our kitchen sink project showcases the on-device Vision API and Custom Model usage
-- Live Video Skeleton app - Use our lightweight camera app to quickly get started with ML features
+- [Image Segmentation](https://www.fritz.ai/features/image-segmentation.html): Create pixel level masks of different objects in a scene. ([code](HeartbeatDemoApp/app/src/main/java/ai/fritz/heartbeat/activities/vision/ImageSegmentationActivity.java))
+- [Image Labeling](https://www.fritz.ai/features/image-labeling.html): Classify different objects in an video or image.([code](HeartbeatDemoApp/app/src/main/java/ai/fritz/heartbeat/activities/vision/ImageLabelingActivity.java))
+- [Pose Estimation](https://www.fritz.ai/features/pose-estimation.html): Identify and track a person's body position.([code](HeartbeatDemoApp/app/src/main/java/ai/fritz/heartbeat/activities/vision/PoseEstimationActivity.java))
+- [Object Detection](https://www.fritz.ai/features/object-detection.html): Detect multiple objects and track their location.([code](HeartbeatDemoApp/app/src/main/java/ai/fritz/heartbeat/activities/vision/ObjectDetectionActivity.java))
+- [Style Transfer](https://www.fritz.ai/features/style-transfer.html): Transform photos and videos into artistic masterpieces.([code](HeartbeatDemoApp/app/src/main/java/ai/fritz/heartbeat/activities/vision/StyleTransferActivity.java))
 
-Choose an app and run it in Android Studio.
+**Custom Models: Deploy, Monitor, and Update your own models:**
 
-Download our Demo App:
-Heartbeat By Fritz is also available on the [Google Play Store](https://play.google.com/store/apps/details?id=ai.fritz.heartbeat)
+We currently support both TensorFlow Lite ([code](HeartbeatDemoApp/app/src/main/java/ai/fritz/heartbeat/activities/custommodel/CustomTFLiteActivity.java)) and TensorFlow Mobile [code]([HeartbeatDemoApp/app/src/main/java/ai/fritz/heartbeat/activities/custommodel/CustomTFMobileActivity.java)) for Android.
 
-## Official Tutorials
+- [Analytics and Monitoring](https://www.fritz.ai/features/analytics-monitoring.html): Monitor machine learning models running on-device with Fritz.
+- [Model Management](https://www.fritz.ai/features/model-management.html): Iterate on your ML models over-the-air, without having to release your app.
+- [Model Protection](https://www.fritz.ai/features/model-protection.html): Use model protection to keep models from being tampered-with or stolen.
 
-For the full app code, go in tutorials and then select the appropriate app:
+## Example Apps
 
-- [Building a Pet Monitor with Object Detection](https://medium.freecodecamp.org/a-guide-to-object-detection-with-fritz-build-a-pet-monitoring-app-in-android-with-machine-learning-a8ed500978e5)
-- [Style Transfer for Android - Transform your photos and videos into masterpieces](https://heartbeat.fritz.ai/real-time-style-transfer-for-android-6a9d238dfdb5)
+If you are new to Fritz, I'd recommend getting started with our Heartbeat Demo App. You can also install the latest version from the [Google Play Store](https://play.google.com/store/apps/details?id=ai.fritz.heartbeat&hl=en_US):
 
-## SDK version
+- Heartbeat Demo App - Our kitchen sink project showcases all on-device Vision APIs and Custom Model usage.
+- Camera Boilerplate App - Our lightweight camera app to quickly get started implementing features with the camera.
+- Background Replacement App [People Segmentation] - An example app to replace the background of portraits ([tutorial](https://heartbeat.fritz.ai/image-segmentation-for-android-smart-background-replacement-with-fritz-a09d8b0592a4)).
+- Hair Coloring App [Hair Segmentation] - An example app to replace a user's hair color ([tutorial](https://heartbeat.fritz.ai/embrace-your-new-look-with-hair-segmentation-by-fritz-now-available-for-android-developers-f20f5b4e9ae1)).
+- Pet Monitoring App [Object Detection] - An example app to track dogs and cats with the camera ([tutorial](https://medium.freecodecamp.org/a-guide-to-object-detection-with-fritz-build-a-pet-monitoring-app-in-android-with-machine-learning-a8ed500978e5)).
 
-- Uses the Android SDK 3.0.2.
+## Latest SDK version
 
-## For questions on how to use the demos, contact us:
+- Fritz Android SDK 3.3.1
 
-- [Slack](https://heartbeat-by-fritz.slack.com/join/shared_invite/enQtMzY5OTM1MzgyODIzLTZhNTFjYmRiODU0NjZjNjJlOGRjYzI2OTIwY2M4YTBiNjM1ODU1ZmU3Y2Q2MmMzMmI2ZTIzZjQ1ZWI3NzBkZGU)
-- [Help Center](https://docs.fritz.ai/help-center/index.html)
+## Official Documentation
 
-## Setup a Fritz account
+[SDK Documentation](https://docs.fritz.ai/)
 
-[Android SDK instructions](https://docs.fritz.ai/get-started.html#android)
+[Android API Docs](https://docs.fritz.ai/android/latest/index.html)
 
-## Documentation
+## Help
 
-[Fritz Docs Home](https://docs.fritz.ai/)
+For any questions or issues, you can:
 
-[Android SDK Reference Docs](https://docs.fritz.ai/android/latest/index.html)
+- Submit an issue on this repo
+- Go to our [Help Center](https://docs.fritz.ai/help-center/index.html)
+- Message us directly in [Slack](https://join.slack.com/t/heartbeat-by-fritz/shared_invite/enQtNTY5NDM2MTQwMTgwLTAyODE3MmQzZjU2NWE5MDNmYTgwM2E1MjU5Y2Y2NmI2YTlkMTMwZTAwYTAwMzQ5NzQ2NDBhZjhmYjU2YWY3OGU)
