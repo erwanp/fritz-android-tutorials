@@ -1,11 +1,18 @@
-# Camera Boilerplate
+# Pose Estimation
 
 [ ![Codeship Status for fritzlabs/fritz-sdk-android](https://app.codeship.com/projects/c74152e0-65d1-0136-2d69-32e87736c6c6/status?branch=master)](https://app.codeship.com/projects/297281)
 [![Twitter](https://img.shields.io/badge/twitter-@fritzlabs-blue.svg?style=flat)](http://twitter.com/fritzlabs)
 
-Fritz is the machine learning platform for iOS and Android developers. In order to run computer vision models or tasks, you have to dive into the Camera 2 API. In order to make it easier for developers to try out ML models, we've created a simple camera app to get started.
+In this app, we will track body movements and position with Pose Estimation
 
-For a full list tutorials, please visit our [examples and tutorials page](https://www.fritz.ai/resources/tutorials.html).
+![](images/pose_estimation.jpg)
+
+For the full tutorial, visit [our post on Heartbeat](https://heartbeat.fritz.ai/pose-estimation-on-android-with-fritz-474e646dfede).
+
+This example app uses the on-device Pose Estimation API for Android.
+
+- [Overview](https://www.fritz.ai/features/pose-estimation.html)
+- [Documentation](https://docs.fritz.ai/develop/vision/pose-estimation/android.html)
 
 ## Requirements
 
@@ -18,13 +25,13 @@ For a full list tutorials, please visit our [examples and tutorials page](https:
 
 In order to use Fritz, please [register for a free account](https://app.fritz.ai/register).
 
-**Step 2: Clone / Fork the fritz-android-tutorials repository and open the camera app in Android Studio**
+**Step 2: Clone / Fork the fritz-android-tutorials repository and open the PoseEstimationApp in Android Studio**
 
 ```
 git clone https://github.com/fritzlabs/fritz-android-tutorials.git
 ```
 
-In Android Studio, choose "Open an existing Android Studio project" and select `skeleton-live-video-app`.
+In Android Studio, choose "Open an existing Android Studio project" and select `PoseEstimationApp`.
 
 **Step 3: Build the Android Studio Project**
 
@@ -32,9 +39,7 @@ Select "Build > Make Project" from the top nav. Download any missing libraries i
 
 **Step 4: Install the app onto your device**
 
-With your Android device connected, select `Run > Run App` from the top nav. You should see a simple camera app for you to play around with.
-
-In future tutorials, we'll use this as a starting point in order to run the model on each camera frame and show the result.
+With your Android device connected, select `Run > Run App` from the top nav. When running the app for the first time, you'll have to give permissions to access the camera. After the app is installed and running, point your camera at someone to detect 17 different body keypoints.
 
 ## Official Documentation
 

@@ -15,7 +15,7 @@ Fritz is the machine learning platform for iOS and Android developers. [Sign up 
 
 **Custom Models: Deploy, Monitor, and Update your own models:**
 
-We currently support both TensorFlow Lite ([code](HeartbeatDemoApp/app/src/main/java/ai/fritz/heartbeat/activities/custommodel/CustomTFLiteActivity.java)) and TensorFlow Mobile [code]([HeartbeatDemoApp/app/src/main/java/ai/fritz/heartbeat/activities/custommodel/CustomTFMobileActivity.java)) for Android.
+We currently support both TensorFlow Lite ([code](HeartbeatDemoApp/app/src/main/java/ai/fritz/heartbeat/activities/custommodel/CustomTFLiteActivity.java)) and TensorFlow Mobile ([code]([HeartbeatDemoApp/app/src/main/java/ai/fritz/heartbeat/activities/custommodel/CustomTFMobileActivity.java)) for Android.
 
 - [Analytics and Monitoring](https://www.fritz.ai/features/analytics-monitoring.html): Monitor machine learning models running on-device with Fritz.
 - [Model Management](https://www.fritz.ai/features/model-management.html): Iterate on your ML models over-the-air, without having to release your app.
@@ -30,6 +30,7 @@ If you are new to Fritz, I'd recommend getting started with our Heartbeat Demo A
 - Background Replacement App [People Segmentation] - An example app to replace the background of portraits ([tutorial](https://heartbeat.fritz.ai/image-segmentation-for-android-smart-background-replacement-with-fritz-a09d8b0592a4)).
 - Hair Coloring App [Hair Segmentation] - An example app to replace a user's hair color ([tutorial](https://heartbeat.fritz.ai/embrace-your-new-look-with-hair-segmentation-by-fritz-now-available-for-android-developers-f20f5b4e9ae1)).
 - Pet Monitoring App [Object Detection] - An example app to track dogs and cats with the camera ([tutorial](https://medium.freecodecamp.org/a-guide-to-object-detection-with-fritz-build-a-pet-monitoring-app-in-android-with-machine-learning-a8ed500978e5)).
+- Pose Estimation App [Pose Estimation] - Track body movements and position with Pose Estimation ([tutorial](https://heartbeat.fritz.ai/pose-estimation-on-android-with-fritz-474e646dfede)).
 
 ## Latest SDK version
 
