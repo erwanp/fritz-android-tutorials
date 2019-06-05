@@ -162,7 +162,6 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
 
         image.close();
 
-
         runInBackground(
                 new Runnable() {
                     @Override
