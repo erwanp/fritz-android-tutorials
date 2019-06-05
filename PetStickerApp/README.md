@@ -1,15 +1,11 @@
-# Automatic Background Replacement with People Segmentation
+# Creating Stickers with Pet Segmentation
 
 [ ![Codeship Status for fritzlabs/fritz-sdk-android](https://app.codeship.com/projects/c74152e0-65d1-0136-2d69-32e87736c6c6/status?branch=master)](https://app.codeship.com/projects/297281)
 [![Twitter](https://img.shields.io/badge/twitter-@fritzlabs-blue.svg?style=flat)](http://twitter.com/fritzlabs)
 
-In this app, we create a mask of a person and then replace the background with any picture in the camera gallery.
+In this app, the user can automatically create a sticker of their pet and save it in their camera roll.
 
-![](images/background_changer.png)
-
-For the full tutorial, visit [our post on Heartbeat](https://heartbeat.fritz.ai/image-segmentation-for-android-smart-background-replacement-with-fritz-a09d8b0592a4).
-
-This example app uses the on-device People Segmentation API for Android.
+This example app uses the on-device Pet Segmentation API for Android.
 
 - [Overview](https://www.fritz.ai/features/image-segmentation.html)
 - [Documentation](https://docs.fritz.ai/develop/vision/image-segmentation/android.html)
@@ -31,7 +27,7 @@ In order to use Fritz, please [register for a free account](https://app.fritz.ai
 git clone https://github.com/fritzlabs/fritz-android-tutorials.git
 ```
 
-In Android Studio, choose "Open an existing Android Studio project" and select `BackgroundReplacementApp`.
+In Android Studio, choose "Open an existing Android Studio project" and select `PetStickerApp`.
 
 **Step 3: Build the Android Studio Project**
 
@@ -39,7 +35,7 @@ Select "Build > Make Project" from the top nav. Download any missing libraries i
 
 **Step 4: Install the app onto your device**
 
-With your Android device connected, select `Run > Run App` from the top nav. When running the app for the first time, you'll have to give permissions to access the camera. After the app is installed and running, take a picture of a person and then after that mask is created, select a photo from your camera gallery to replace the background.
+With your Android device connected, select `Run > Run App` from the top nav. When running the app for the first time, you'll have to give permissions to access the camera. After the app is installed and running, take a picture of a pet and you'll see a preview of the sticker. You can then save the sticker to your photo gallery.
 
 ## Official Documentation
 
