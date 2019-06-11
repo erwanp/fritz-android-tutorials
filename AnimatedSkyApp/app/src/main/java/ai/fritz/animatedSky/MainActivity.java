@@ -102,13 +102,14 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
 
                 // Create a bitmap for undetected items. Scale it up for the camera.
                 Bitmap notSkyBitmap = segmentResult.createBackgroundBitmap();
+
+                // Scale the non-sky bitmap (scale up from preview size (size of the original image)
+                // to fill the view (cameraSize)).
                 float scaleWidth = ((float) cameraSize.getWidth()) / notSkyBitmap.getWidth();
-                float scaleHeight = ((float) cameraSize.getWidth()) / notSkyBitmap.getHeight();
+                float scaleHeight = ((float) cameraSize.getHeight()) / notSkyBitmap.getHeight();
                 final Matrix matrix = new Matrix();
                 float scale = Math.min(scaleWidth, scaleHeight);
                 matrix.postScale(scale, scale);
-
-                // Create a scaled bitmap
                 Bitmap scaledNonSkyBitmap = Bitmap.createBitmap(notSkyBitmap, 0, 0, notSkyBitmap.getWidth(), notSkyBitmap.getHeight(), matrix, false);
 
                 // Hide the button until the animation finishes.
@@ -170,6 +171,10 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
         });
     }
 
+    // For more information on how this animation works:
+    // http://old.flavienlaurent.com/blog/2013/08/05/make-your-background-moving-like-on-play-music-app/
+    // In short, use displayRect to maintain the real size and position of the bg.
+    // Animate the background by applying a translation.
     private void animate() {
         int width = mImageView.getDrawable().getIntrinsicWidth();
         int height = mImageView.getDrawable().getIntrinsicHeight();
