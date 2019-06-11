@@ -127,7 +127,7 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
                         mScaleFactor = (float) mImageView.getHeight() / (float) mImageView.getDrawable().getIntrinsicHeight();
                         mMatrix.postScale(mScaleFactor, mScaleFactor);
                         mImageView.setImageMatrix(mMatrix);
-                        animate();
+                        startAnimation();
                     }
                 });
 
@@ -175,7 +175,7 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
     // http://old.flavienlaurent.com/blog/2013/08/05/make-your-background-moving-like-on-play-music-app/
     // In short, use displayRect to maintain the real size and position of the bg.
     // Animate the background by applying a translation.
-    private void animate() {
+    private void startAnimation() {
         int width = mImageView.getDrawable().getIntrinsicWidth();
         int height = mImageView.getDrawable().getIntrinsicHeight();
         mDisplayRect.set(0, 0, width, height);
