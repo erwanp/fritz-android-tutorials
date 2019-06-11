@@ -7,7 +7,7 @@ In this app, we create a simple photo app to replace the sky with an animation.
 
 ![](images/skyani.gif)
 
-This example app uses the on-device Sky Segmentation API for Android.
+This example app uses the on-device Image Segmentation API with the Sky Segmentation Model for Android.
 
 - [Overview](https://www.fritz.ai/features/image-segmentation.html)
 - [Documentation](https://docs.fritz.ai/develop/vision/image-segmentation/android.html)
@@ -23,7 +23,7 @@ This example app uses the on-device Sky Segmentation API for Android.
 
 In order to use Fritz, please [register for a free account](https://app.fritz.ai/register).
 
-**Step 2: Clone / Fork the fritz-android-tutorials repository and open the BackgroundReplacementApp app in Android Studio**
+**Step 2: Clone / Fork the fritz-android-tutorials repository and open the AnimatedSkyApp app in Android Studio**
 
 ```
 git clone https://github.com/fritzlabs/fritz-android-tutorials.git
