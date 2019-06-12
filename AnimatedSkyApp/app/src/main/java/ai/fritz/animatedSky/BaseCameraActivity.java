@@ -20,8 +20,6 @@ import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import ai.fritz.animatedSky.R;
-
 
 public abstract class BaseCameraActivity extends AppCompatActivity implements OnImageAvailableListener {
     private static final String TAG = BaseCameraActivity.class.getSimpleName();
@@ -38,6 +36,7 @@ public abstract class BaseCameraActivity extends AppCompatActivity implements On
     private HandlerThread handlerThread;
 
     protected String cameraId;
+    protected int cameraFacingDirection = CameraCharacteristics.LENS_FACING_BACK;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -98,6 +97,10 @@ public abstract class BaseCameraActivity extends AppCompatActivity implements On
         super.onDestroy();
     }
 
+    protected int getCameraFacingDirection() {
+        return cameraFacingDirection;
+    }
+
     protected synchronized void runInBackground(final Runnable r) {
         if (handler != null) {
             handler.post(r);
@@ -122,7 +125,8 @@ public abstract class BaseCameraActivity extends AppCompatActivity implements On
 
     private boolean hasPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            return checkSelfPermission(PERMISSION_CAMERA) == PackageManager.PERMISSION_GRANTED && checkSelfPermission(PERMISSION_STORAGE) == PackageManager.PERMISSION_GRANTED;
+            boolean cameraPermission = checkSelfPermission(PERMISSION_CAMERA) == PackageManager.PERMISSION_GRANTED;
+            return  cameraPermission;
         } else {
             return true;
         }
@@ -159,6 +163,16 @@ public abstract class BaseCameraActivity extends AppCompatActivity implements On
                 .commit();
     }
 
+    protected void toggleCameraFacingDirection() {
+        if (cameraFacingDirection == CameraCharacteristics.LENS_FACING_FRONT) {
+            cameraFacingDirection = CameraCharacteristics.LENS_FACING_BACK;
+        } else {
+            cameraFacingDirection = CameraCharacteristics.LENS_FACING_FRONT;
+        }
+
+        setFragment();
+    }
+
     private String chooseCamera() {
         final CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         try {
@@ -167,7 +181,7 @@ public abstract class BaseCameraActivity extends AppCompatActivity implements On
 
                 // We don't use a front facing camera in this sample.
                 final Integer facing = characteristics.get(CameraCharacteristics.LENS_FACING);
-                if (facing != null && facing == CameraCharacteristics.LENS_FACING_FRONT) {
+                if (facing != null && facing != cameraFacingDirection) {
                     continue;
                 }
 

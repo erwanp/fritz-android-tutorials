@@ -1,7 +1,5 @@
 package ai.fritz.animatedSky;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -30,9 +28,9 @@ import ai.fritz.fritzvisionskysegmentationmodel.SkySegmentationOnDeviceModel;
 import ai.fritz.vision.FritzVision;
 import ai.fritz.vision.FritzVisionImage;
 import ai.fritz.vision.FritzVisionOrientation;
+import ai.fritz.vision.imagesegmentation.FritzVisionSegmentPredictor;
 import ai.fritz.vision.imagesegmentation.FritzVisionSegmentPredictorOptions;
 import ai.fritz.vision.imagesegmentation.FritzVisionSegmentResult;
-import ai.fritz.vision.imagesegmentation.FritzVisionSegmentTFLPredictor;
 
 
 public class MainActivity extends BaseCameraActivity implements ImageReader.OnImageAvailableListener {
@@ -40,7 +38,7 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
     private static final String API_KEY = "bbe75c73f8b24e63bc05bf81ed9d2829";
 
     private AtomicBoolean shouldSample = new AtomicBoolean(true);
-    private FritzVisionSegmentTFLPredictor predictor;
+    private FritzVisionSegmentPredictor predictor;
     private int imgRotation;
 
     private static final int DURATION = 5000;
@@ -71,12 +69,12 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
         FritzVisionSegmentPredictorOptions options = new FritzVisionSegmentPredictorOptions.Builder()
                 .targetConfidenceThreshold(.6f)
                 .build();
-        predictor = FritzVision.ImageSegmentation.getPredictorTFL(onDeviceModel, options);
+        predictor = FritzVision.ImageSegmentation.getPredictor(onDeviceModel, options);
     }
 
     @Override
     protected int getLayoutId() {
-        return R.layout.camera_connection_fragment_background_replace;
+        return R.layout.sky_fragment;
     }
 
     @Override
@@ -111,14 +109,6 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
                 float scale = Math.min(scaleWidth, scaleHeight);
                 matrix.postScale(scale, scale);
                 Bitmap scaledNonSkyBitmap = Bitmap.createBitmap(notSkyBitmap, 0, 0, notSkyBitmap.getWidth(), notSkyBitmap.getHeight(), matrix, false);
-
-                // Hide the button until the animation finishes.
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        closeButton.setVisibility(View.GONE);
-                    }
-                });
 
                 // Start the animation
                 mImageView.post(new Runnable() {
@@ -164,6 +154,7 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
             public void onClick(View view) {
                 showPreviewLayout();
                 shouldSample.set(true);
+                mCurrentAnimator.end();
                 mMatrix = new Matrix();
                 mImageView.setImageMatrix(mMatrix);
                 mDisplayRect = new RectF();
@@ -185,6 +176,7 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
 
     private void animate(float from, float to) {
         mCurrentAnimator = ValueAnimator.ofFloat(from, to);
+        mCurrentAnimator.setRepeatCount(ValueAnimator.INFINITE);
         mCurrentAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -198,12 +190,6 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
             }
         });
         mCurrentAnimator.setDuration(DURATION);
-        mCurrentAnimator.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                closeButton.setVisibility(View.VISIBLE);
-            }
-        });
         mCurrentAnimator.start();
     }
 
@@ -253,8 +239,8 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
             return;
         }
         // Feel free to uncomment if you'd like to try it out with a static image
-        // Bitmap testImage = getBitmapForAsset(this, "climbing.png");
-        // visionImage = FritzVisionImage.fromBitmap(testImage, 0);
+//         Bitmap testImage = getBitmapForAsset(this, "climbing.png");
+//         visionImage = FritzVisionImage.fromBitmap(testImage, 0);
 
         // Using the image from the camera
         visionImage = FritzVisionImage.fromMediaImage(image, imgRotation);
