@@ -28,6 +28,7 @@ If you are new to Fritz, I'd recommend getting started with our Heartbeat Demo A
 - Heartbeat Demo App - Our kitchen sink project showcases all on-device Vision APIs and Custom Model usage.
 - Camera Boilerplate App - Our lightweight camera app to quickly get started implementing features with the camera.
 - Background Replacement App [People Segmentation] - An example app to replace the background of portraits ([tutorial](https://heartbeat.fritz.ai/image-segmentation-for-android-smart-background-replacement-with-fritz-a09d8b0592a4)).
+- Sky Animation App [Sky Segmentation] - A simple photo app that replaces the sky with an animation. (Tutorial coming soon)
 - Hair Coloring App [Hair Segmentation] - An example app to replace a user's hair color ([tutorial](https://heartbeat.fritz.ai/embrace-your-new-look-with-hair-segmentation-by-fritz-now-available-for-android-developers-f20f5b4e9ae1)).
 - Pet Monitoring App [Object Detection] - An example app to track dogs and cats with the camera ([tutorial](https://medium.freecodecamp.org/a-guide-to-object-detection-with-fritz-build-a-pet-monitoring-app-in-android-with-machine-learning-a8ed500978e5)).
 - Pet Sticker App [Pose Estimation] - Create a sticker from photos of your pets. (Tutorial coming soon)
