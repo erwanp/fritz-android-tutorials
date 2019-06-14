@@ -38,6 +38,7 @@ dependencies {
 
     implementation "ai.fritz:vision:${sdk_version}"
     implementation "ai.fritz:custom-model-tflite:${sdk_version}"
+    implementation "ai.fritz:custom-model-tfmobile:${sdk_version}"
 
     implementation "ai.fritz:vision-image-label-model:${sdk_version}"
     implementation "ai.fritz:vision-object-detection-model:${sdk_version}"
