@@ -150,6 +150,11 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
                 Bitmap maskBitmap = segmentResult.createMaskedBitmap(MaskType.PERSON);
                 Log.d(TAG, "Masked bitmap took " + (System.currentTimeMillis() - startTime) + "ms to create.");
 
+                if (maskBitmap == null) {
+                    Log.d(TAG, "No mask found.");
+                    return;
+                }
+
                 // Scale the result
                 float scaleWidth = ((float) cameraSize.getWidth()) / maskBitmap.getWidth();
                 float scaleHeight = ((float) cameraSize.getWidth()) / maskBitmap.getHeight();
