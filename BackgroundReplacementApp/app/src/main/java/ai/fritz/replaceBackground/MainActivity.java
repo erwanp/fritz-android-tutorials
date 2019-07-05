@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import ai.fritz.core.Fritz;
 import ai.fritz.core.utils.BitmapUtils;
-import ai.fritz.peoplesegmentation.PeopleSegmentOnDeviceModel;
+import ai.fritz.fritzvisionpeoplesegmentationmedium.PeopleSegmentMediumOnDeviceModel;
 import ai.fritz.vision.FritzVision;
 import ai.fritz.vision.FritzVisionImage;
 import ai.fritz.vision.FritzVisionOrientation;
@@ -62,7 +62,7 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
         super.onCreate(savedInstanceState);
         Fritz.configure(getApplicationContext(), "<Your API key>");
 
-        PeopleSegmentOnDeviceModel onDeviceModel = new PeopleSegmentOnDeviceModel();
+        PeopleSegmentMediumOnDeviceModel onDeviceModel = new PeopleSegmentMediumOnDeviceModel();
         FritzVisionSegmentPredictorOptions options = new FritzVisionSegmentPredictorOptions.Builder()
                 .targetConfidenceThreshold(.4f)
                 .build();
