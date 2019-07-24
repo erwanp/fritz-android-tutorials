@@ -16,8 +16,8 @@ import ai.fritz.vision.FritzVisionImage;
 import ai.fritz.vision.FritzVisionOrientation;
 import ai.fritz.vision.imagesegmentation.BlendMode;
 import ai.fritz.vision.imagesegmentation.BlendModeType;
+import ai.fritz.vision.imagesegmentation.FritzVisionSegmentPredictor;
 import ai.fritz.vision.imagesegmentation.FritzVisionSegmentResult;
-import ai.fritz.vision.imagesegmentation.FritzVisionSegmentTFLPredictor;
 import ai.fritz.vision.imagesegmentation.MaskType;
 import ai.fritz.vision.imagesegmentation.SegmentOnDeviceModel;
 
@@ -26,13 +26,13 @@ public class MainActivity extends LiveCameraActivity {
 
     private static final String API_KEY = "bbe75c73f8b24e63bc05bf81ed9d2829";
 
-    private FritzVisionSegmentTFLPredictor predictor;
+    private FritzVisionSegmentPredictor predictor;
     private FritzVisionImage visionImage;
     private FritzVisionSegmentResult segmentResult;
 
     @Override
     protected void initializeFritz() {
-        // TODO: Uncomment this and modify your api key above.
+        // TODO: Modify your api key above.
         Fritz.configure(this, API_KEY);
     }
 
@@ -44,7 +44,7 @@ public class MainActivity extends LiveCameraActivity {
         // successfully downloaded and included with the app.
         // TODO: Create a predictor
         SegmentOnDeviceModel onDeviceModel = new HairSegmentationOnDeviceModel();
-        predictor = FritzVision.ImageSegmentation.getPredictorTFL(onDeviceModel);
+        predictor = FritzVision.ImageSegmentation.getPredictor(onDeviceModel);
         MaskType.HAIR.color = Color.RED;
         // ----------------------------------------------
         // END STEP 1
@@ -74,13 +74,14 @@ public class MainActivity extends LiveCameraActivity {
     protected void showResult(Canvas canvas, Size cameraSize) {
         // STEP 4: Draw the prediction result
         // ----------------------------------
-        if(segmentResult != null && visionImage != null) {
+        if (segmentResult != null && visionImage != null) {
             BlendMode blendMode = BlendModeType.SOFT_LIGHT.create();
-            Bitmap maskBitmap = segmentResult.createMaskOverlayBitmap(blendMode.getAlpha());
+            Bitmap maskBitmap = segmentResult.buildSingleClassMask(MaskType.HAIR, blendMode.getAlpha(), 1, .5f);
+
             Bitmap blendedBitmap = visionImage.blend(maskBitmap, blendMode);
             // Hacky but putting this here to mirror the result for selfies.
             // TODO: Figure out how to apply the rotation to the preview camera session.
-            if(getCameraFacingDirection() == CameraCharacteristics.LENS_FACING_FRONT){
+            if (getCameraFacingDirection() == CameraCharacteristics.LENS_FACING_FRONT) {
                 Matrix m = new Matrix();
                 m.preScale(-1, 1);
                 m.postTranslate(canvas.getWidth(), 0);
