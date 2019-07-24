@@ -31,6 +31,7 @@ import ai.fritz.vision.FritzVisionOrientation;
 import ai.fritz.vision.imagesegmentation.FritzVisionSegmentPredictor;
 import ai.fritz.vision.imagesegmentation.FritzVisionSegmentPredictorOptions;
 import ai.fritz.vision.imagesegmentation.FritzVisionSegmentResult;
+import ai.fritz.vision.imagesegmentation.MaskType;
 
 
 public class MainActivity extends BaseCameraActivity implements ImageReader.OnImageAvailableListener {
@@ -59,6 +60,7 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
     OverlayView snapshotOverlay;
     ProgressBar snapshotProcessingSpinner;
     Button closeButton;
+    FritzVisionSegmentPredictorOptions options;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -66,7 +68,7 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
         Fritz.configure(getApplicationContext(), API_KEY);
 
         SkySegmentationOnDeviceModel onDeviceModel = new SkySegmentationOnDeviceModel();
-        FritzVisionSegmentPredictorOptions options = new FritzVisionSegmentPredictorOptions.Builder()
+        options = new FritzVisionSegmentPredictorOptions.Builder()
                 .targetConfidenceThreshold(.6f)
                 .build();
         predictor = FritzVision.ImageSegmentation.getPredictor(onDeviceModel, options);
@@ -99,7 +101,8 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
                 }
 
                 // Create a bitmap for undetected items. Scale it up for the camera.
-                Bitmap notSkyBitmap = segmentResult.createBackgroundBitmap();
+                Bitmap notSkyMask = segmentResult.buildSingleClassMask(MaskType.NONE, 255, 1, options.getTargetConfidenceThreshold());
+                Bitmap notSkyBitmap = visionImage.mask(notSkyMask);
 
                 // Scale the non-sky bitmap (scale up from preview size (size of the original image)
                 // to fill the view (cameraSize)).

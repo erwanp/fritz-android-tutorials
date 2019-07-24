@@ -41,7 +41,8 @@ public class ImageSegmentationActivity extends BaseRecordingActivity implements 
     @Override
     protected Bitmap runPrediction(FritzVisionImage visionImage, Size cameraViewSize) {
         FritzVisionSegmentResult segmentResult = predictor.predict(visionImage);
-        return segmentResult.toBitmap();
+        Bitmap bitmap = segmentResult.buildMultiClassMask();
+        return visionImage.overlay(bitmap);
     }
 
     @Override

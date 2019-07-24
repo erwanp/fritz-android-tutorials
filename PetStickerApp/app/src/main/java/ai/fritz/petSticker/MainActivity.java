@@ -24,9 +24,9 @@ import ai.fritz.fritzvisionpetsegmentationmodel.PetSegmentationOnDeviceModel;
 import ai.fritz.vision.FritzVision;
 import ai.fritz.vision.FritzVisionImage;
 import ai.fritz.vision.FritzVisionOrientation;
+import ai.fritz.vision.imagesegmentation.FritzVisionSegmentPredictor;
 import ai.fritz.vision.imagesegmentation.FritzVisionSegmentPredictorOptions;
 import ai.fritz.vision.imagesegmentation.FritzVisionSegmentResult;
-import ai.fritz.vision.imagesegmentation.FritzVisionSegmentTFLPredictor;
 import ai.fritz.vision.imagesegmentation.MaskType;
 
 
@@ -35,7 +35,7 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
     private static final String API_KEY = "bbe75c73f8b24e63bc05bf81ed9d2829";
 
     private AtomicBoolean shouldSample = new AtomicBoolean(true);
-    private FritzVisionSegmentTFLPredictor predictor;
+    private FritzVisionSegmentPredictor predictor;
     private int imgRotation;
 
     private FritzVisionSegmentResult segmentResult;
@@ -48,6 +48,7 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
     OverlayView snapshotOverlay;
     ProgressBar snapshotProcessingSpinner;
     Button closeButton;
+    FritzVisionSegmentPredictorOptions options;
 
     Bitmap petBitmapToSave;
 
@@ -57,10 +58,10 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
         Fritz.configure(this, API_KEY);
 
         PetSegmentationOnDeviceModel onDeviceModel = new PetSegmentationOnDeviceModel();
-        FritzVisionSegmentPredictorOptions options = new FritzVisionSegmentPredictorOptions.Builder()
+        options = new FritzVisionSegmentPredictorOptions.Builder()
                 .targetConfidenceThreshold(.4f)
                 .build();
-        predictor = FritzVision.ImageSegmentation.getPredictorTFL(onDeviceModel, options);
+        predictor = FritzVision.ImageSegmentation.getPredictor(onDeviceModel, options);
     }
 
     @Override
@@ -88,7 +89,8 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
                     return;
                 }
 
-                Bitmap petBitmap = segmentResult.createMaskedBitmap(MaskType.PET, .6f, .4f);
+                Bitmap maskBitmap = segmentResult.buildSingleClassMask(MaskType.PET, 255, options.getTargetConfidenceThreshold(), options.getTargetConfidenceThreshold());
+                Bitmap petBitmap = visionImage.mask(maskBitmap, true);
 
                 if (petBitmap == null) {
                     return;
