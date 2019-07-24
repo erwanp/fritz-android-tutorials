@@ -60,7 +60,7 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fritz.configure(getApplicationContext(), "<Your API key>");
+        Fritz.configure(getApplicationContext(), "bbe75c73f8b24e63bc05bf81ed9d2829");
 
         PeopleSegmentMediumOnDeviceModel onDeviceModel = new PeopleSegmentMediumOnDeviceModel();
         FritzVisionSegmentPredictorOptions options = new FritzVisionSegmentPredictorOptions.Builder()
@@ -132,43 +132,45 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
             @Override
             public void drawCallback(final Canvas canvas) {
 
-                if (segmentResult == null || backgroundBitmap == null) {
-                    if (segmentResult != null) {
-                        Bitmap predictionResult = segmentResult.getResultBitmap(cameraSize);
-                        canvas.drawBitmap(predictionResult, new Matrix(), new Paint());
-                    } else if (visionImage != null) {
-                        Bitmap scaledBitmap = BitmapUtils.resize(visionImage.rotateBitmap(), cameraSize.getWidth(), cameraSize.getHeight());
-                        canvas.drawBitmap(scaledBitmap, new Matrix(), new Paint());
-                    }
+                // If the prediction has not run
+                if(segmentResult == null) {
+                    return;
+                }
 
+                // Show the people segmentation result when the background hasn't been chosen.
+                if (backgroundBitmap == null) {
+                    Bitmap personMask = segmentResult.buildSingleClassMask(MaskType.PERSON, 180, .5f, .5f);
+                    Bitmap result = visionImage.overlay(personMask);
+                    Bitmap scaledBitmap = BitmapUtils.resize(result, cameraSize.getWidth(), cameraSize.getHeight());
+                    canvas.drawBitmap(scaledBitmap, new Matrix(), new Paint());
                     return;
                 }
 
                 // Show the background replacement
                 Bitmap scaledBackgroundBitmap = BitmapUtils.resize(backgroundBitmap, cameraSize.getWidth(), cameraSize.getHeight());
+                canvas.drawBitmap(scaledBackgroundBitmap, new Matrix(), new Paint());
+
+                // Draw the masked bitmap
                 long startTime = System.currentTimeMillis();
-                Bitmap maskBitmap = segmentResult.createMaskedBitmap(MaskType.PERSON);
+                // Use a max alpha of 255 so that there isn't any transparency in the mask.
+                Bitmap maskedBitmap = segmentResult.buildSingleClassMask(MaskType.PERSON, 255, .5f, .5f);
+                Bitmap croppedMask = visionImage.mask(maskedBitmap, true);
                 Log.d(TAG, "Masked bitmap took " + (System.currentTimeMillis() - startTime) + "ms to create.");
 
-                if (maskBitmap == null) {
-                    Log.d(TAG, "No mask found.");
-                    return;
+                if (croppedMask != null) {
+                    // Scale the result
+                    float scaleWidth = ((float) cameraSize.getWidth()) / croppedMask.getWidth();
+                    float scaleHeight = ((float) cameraSize.getWidth()) / croppedMask.getHeight();
+
+                    final Matrix matrix = new Matrix();
+                    float scale = Math.min(scaleWidth, scaleHeight);
+                    matrix.postScale(scale, scale);
+
+                    Bitmap scaledMaskBitmap = Bitmap.createBitmap(croppedMask, 0, 0, croppedMask.getWidth(), croppedMask.getHeight(), matrix, false);
+                    // Print the background bitmap with the masked bitmap
+                    // Center the masked bitmap at the bottom of the image.
+                    canvas.drawBitmap(scaledMaskBitmap, (cameraSize.getWidth() - scaledMaskBitmap.getWidth()) / 2, cameraSize.getHeight() - scaledMaskBitmap.getHeight(), new Paint());
                 }
-
-                // Scale the result
-                float scaleWidth = ((float) cameraSize.getWidth()) / maskBitmap.getWidth();
-                float scaleHeight = ((float) cameraSize.getWidth()) / maskBitmap.getHeight();
-
-                final Matrix matrix = new Matrix();
-                float scale = Math.min(scaleWidth, scaleHeight);
-                matrix.postScale(scale, scale);
-
-                Bitmap scaledMaskBitmap = Bitmap.createBitmap(maskBitmap, 0, 0, maskBitmap.getWidth(), maskBitmap.getHeight(), matrix, false);
-
-                // Print the background bitmap with the masked bitmap
-                canvas.drawBitmap(scaledBackgroundBitmap, new Matrix(), new Paint());
-                // Center the masked bitmap at the bottom of the image.
-                canvas.drawBitmap(scaledMaskBitmap, (cameraSize.getWidth() - scaledMaskBitmap.getWidth()) / 2, cameraSize.getHeight() - scaledMaskBitmap.getHeight(), new Paint());
             }
         });
 
