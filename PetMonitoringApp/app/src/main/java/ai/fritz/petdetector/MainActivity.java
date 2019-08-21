@@ -100,7 +100,7 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
                         Size rotatedSize = visionImage.getRotatedBitmapDimensions();
 
                         // Go through all results
-                        for (FritzVisionObject object : result.getVisionObjects()) {
+                        for (FritzVisionObject object : result.getObjects()) {
                             String labelText = object.getVisionLabel().getText();
 
                             // Only show results for dogs and cats
