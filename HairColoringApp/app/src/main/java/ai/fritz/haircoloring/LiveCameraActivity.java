@@ -15,7 +15,7 @@ public abstract class LiveCameraActivity extends BaseCameraActivity implements I
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private static final Size DESIRED_PREVIEW_SIZE = new Size(1280, 960);
+    private static final Size DESIRED_PREVIEW_SIZE = new Size(640, 480);
 
     private AtomicBoolean computing = new AtomicBoolean(false);
 
