@@ -23,7 +23,6 @@ import android.widget.Toast;
 
 public abstract class BaseCameraActivity extends AppCompatActivity implements OnImageAvailableListener {
     private static final String TAG = BaseCameraActivity.class.getSimpleName();
-    private static int MAX_WIDTH = 500;
     private static final int PERMISSIONS_REQUEST = 1;
 
     private static final String PERMISSION_CAMERA = Manifest.permission.CAMERA;
@@ -255,11 +254,7 @@ public abstract class BaseCameraActivity extends AppCompatActivity implements On
 
     protected abstract int getLayoutId();
 
-    protected Size getDesiredPreviewFrameSize() {
-        DisplayMetrics metrics = getResources().getDisplayMetrics();
-        float ratio = (float) metrics.heightPixels / metrics.widthPixels;
-        return new Size(MAX_WIDTH, (int) ratio * MAX_WIDTH);
-    }
+    protected abstract Size getDesiredPreviewFrameSize();
 }
 
 
