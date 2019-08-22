@@ -13,10 +13,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Size;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -25,6 +25,7 @@ public abstract class BaseCameraActivity extends AppCompatActivity implements On
     private static final String TAG = BaseCameraActivity.class.getSimpleName();
     private static final int PERMISSIONS_REQUEST = 1;
 
+    private static final long DELAY_OVERLAY_VISIBLE = 500;
     private static final String PERMISSION_CAMERA = Manifest.permission.CAMERA;
     private static final String PERMISSION_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE;
     private boolean useCamera2API;
@@ -35,7 +36,8 @@ public abstract class BaseCameraActivity extends AppCompatActivity implements On
     private HandlerThread handlerThread;
 
     protected String cameraId;
-    protected int cameraFacingDirection = CameraCharacteristics.LENS_FACING_BACK;
+    protected int cameraFacingDirection = CameraCharacteristics.LENS_FACING_FRONT;
+    CameraConnectionFragment fragment;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -141,7 +143,7 @@ public abstract class BaseCameraActivity extends AppCompatActivity implements On
 
     protected void setFragment() {
         cameraId = chooseCamera();
-        final CameraConnectionFragment fragment =
+        fragment =
                 CameraConnectionFragment.newInstance(
                         new CameraConnectionFragment.ConnectionCallback() {
                             @Override
@@ -151,24 +153,47 @@ public abstract class BaseCameraActivity extends AppCompatActivity implements On
                         },
                         this,
                         getLayoutId(),
-                        getDesiredPreviewFrameSize());
-
-        fragment.setCamera(cameraId);
+                        getDesiredPreviewFrameSize(),
+                        new CameraConnectionFragment.CameraOpenListener() {
+                            @Override
+                            public void onCameraOpened() {
+                                final Handler handler = new Handler();
+                                handler.postDelayed(
+                                        new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        final OverlayView overlay = findViewById(R.id.debug_overlay);
+                                                        overlay.setVisibility(View.VISIBLE);
+                                                    }
+                                                });
+                                            }
+                                        }, DELAY_OVERLAY_VISIBLE);
+                            }
+                        });
 
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.camera_container, fragment)
                 .commit();
+
+        fragment.setCamera(cameraId);
     }
 
     protected void toggleCameraFacingDirection() {
+        final OverlayView overlay = findViewById(R.id.debug_overlay);
+        overlay.setVisibility(View.INVISIBLE);
+
         if (cameraFacingDirection == CameraCharacteristics.LENS_FACING_FRONT) {
             cameraFacingDirection = CameraCharacteristics.LENS_FACING_BACK;
         } else {
             cameraFacingDirection = CameraCharacteristics.LENS_FACING_FRONT;
         }
 
-        setFragment();
+        cameraId = chooseCamera();
+        fragment.switchCamera(cameraId);
     }
 
     private String chooseCamera() {

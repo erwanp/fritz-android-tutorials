@@ -20,6 +20,7 @@ public abstract class LiveCameraActivity extends BaseCameraActivity implements I
     private AtomicBoolean computing = new AtomicBoolean(false);
 
     protected ImageButton cameraSwitchBtn;
+    OverlayView overlayView;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -52,6 +53,8 @@ public abstract class LiveCameraActivity extends BaseCameraActivity implements I
     @Override
     public void onPreviewSizeChosen(final Size previewSize, final Size cameraViewSize, final int rotation) {
         cameraSwitchBtn = findViewById(R.id.camera_switch_btn);
+        overlayView = findViewById(R.id.debug_overlay);
+
         cameraSwitchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,7 +93,6 @@ public abstract class LiveCameraActivity extends BaseCameraActivity implements I
                 new Runnable() {
                     @Override
                     public void run() {
-
                         runInference();
                         // Fire callback to change the OverlayView
                         requestRender();

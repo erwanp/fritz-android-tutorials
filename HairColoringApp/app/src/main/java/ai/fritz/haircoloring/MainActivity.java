@@ -25,6 +25,7 @@ import ai.fritz.vision.imagesegmentation.SegmentOnDeviceModel;
 public class MainActivity extends LiveCameraActivity {
 
     private static final String API_KEY = "bbe75c73f8b24e63bc05bf81ed9d2829";
+    private static final int HAIR_COLOR = Color.RED;
 
     private FritzVisionSegmentPredictor predictor;
     private FritzVisionImage visionImage;
@@ -45,7 +46,6 @@ public class MainActivity extends LiveCameraActivity {
         // TODO: Create a predictor
         SegmentOnDeviceModel onDeviceModel = new HairSegmentationOnDeviceModel();
         predictor = FritzVision.ImageSegmentation.getPredictor(onDeviceModel);
-        MaskType.HAIR.color = Color.RED;
         // ----------------------------------------------
         // END STEP 1
     }
@@ -76,7 +76,7 @@ public class MainActivity extends LiveCameraActivity {
         // ----------------------------------
         if (segmentResult != null && visionImage != null) {
             BlendMode blendMode = BlendModeType.SOFT_LIGHT.create();
-            Bitmap maskBitmap = segmentResult.buildSingleClassMask(MaskType.HAIR, blendMode.getAlpha(), 1, .5f);
+            Bitmap maskBitmap = segmentResult.buildSingleClassMask(MaskType.HAIR, blendMode.getAlpha(), 1, .6f, HAIR_COLOR);
 
             Bitmap blendedBitmap = visionImage.blend(maskBitmap, blendMode);
             // Hacky but putting this here to mirror the result for selfies.

@@ -44,9 +44,12 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 
-
 public class CameraConnectionFragment extends Fragment {
     private static final String TAG = CameraConnectionFragment.class.getSimpleName();
+
+    public interface CameraOpenListener {
+        void onCameraOpened();
+    }
 
     public CameraConnectionFragment() {
 
@@ -133,34 +136,7 @@ public class CameraConnectionFragment extends Fragment {
      * {@link android.hardware.camera2.CameraDevice.StateCallback}
      * is called when {@link CameraDevice} changes its state.
      */
-    private final CameraDevice.StateCallback stateCallback =
-            new CameraDevice.StateCallback() {
-                @Override
-                public void onOpened(final CameraDevice cd) {
-                    // This method is called when the camera is opened.  We start camera preview here.
-                    cameraOpenCloseLock.release();
-                    cameraDevice = cd;
-                    createCameraPreviewSession();
-                }
-
-                @Override
-                public void onDisconnected(final CameraDevice cd) {
-                    cameraOpenCloseLock.release();
-                    cd.close();
-                    cameraDevice = null;
-                }
-
-                @Override
-                public void onError(final CameraDevice cd, final int error) {
-                    cameraOpenCloseLock.release();
-                    cd.close();
-                    cameraDevice = null;
-                    final Activity activity = getActivity();
-                    if (null != activity) {
-                        activity.finish();
-                    }
-                }
-            };
+    private CameraDevice.StateCallback stateCallback;
 
     /**
      * An additional thread for running tasks that shouldn't block the UI.
@@ -206,6 +182,7 @@ public class CameraConnectionFragment extends Fragment {
      * The layout identifier to inflate for this Fragment.
      */
     private int layout = -1;
+    CameraOpenListener openListener;
 
 
     private ConnectionCallback cameraConnectionCallback = null;
@@ -214,11 +191,42 @@ public class CameraConnectionFragment extends Fragment {
             final ConnectionCallback connectionCallback,
             final OnImageAvailableListener imageListener,
             final int layout,
-            final Size inputSize) {
+            final Size inputSize,
+            CameraOpenListener listener) {
         this.cameraConnectionCallback = connectionCallback;
         this.imageListener = imageListener;
         this.layout = layout;
         this.inputSize = inputSize;
+        this.openListener = listener;
+        this.stateCallback =
+                new CameraDevice.StateCallback() {
+                    @Override
+                    public void onOpened(final CameraDevice cd) {
+                        // This method is called when the camera is opened.  We start camera preview here.
+                        cameraOpenCloseLock.release();
+                        cameraDevice = cd;
+                        createCameraPreviewSession();
+                        openListener.onCameraOpened();
+                    }
+
+                    @Override
+                    public void onDisconnected(final CameraDevice cd) {
+                        cameraOpenCloseLock.release();
+                        cd.close();
+                        cameraDevice = null;
+                    }
+
+                    @Override
+                    public void onError(final CameraDevice cd, final int error) {
+                        cameraOpenCloseLock.release();
+                        cd.close();
+                        cameraDevice = null;
+                        final Activity activity = getActivity();
+                        if (null != activity) {
+                            activity.finish();
+                        }
+                    }
+                };
     }
 
     /**
@@ -293,8 +301,9 @@ public class CameraConnectionFragment extends Fragment {
             final ConnectionCallback callback,
             final OnImageAvailableListener imageListener,
             final int layout,
-            final Size inputSize) {
-        return new CameraConnectionFragment(callback, imageListener, layout, inputSize);
+            final Size inputSize,
+            CameraOpenListener openListener) {
+        return new CameraConnectionFragment(callback, imageListener, layout, inputSize, openListener);
     }
 
     @Override
@@ -340,6 +349,12 @@ public class CameraConnectionFragment extends Fragment {
         this.cameraId = cameraId;
     }
 
+    public void switchCamera(String cameraId) {
+        closeCamera();
+        this.cameraId = cameraId;
+        openCamera(textureView.getWidth(), textureView.getHeight());
+    }
+
     /**
      * Sets up member variables related to camera.
      */
@@ -368,7 +383,7 @@ public class CameraConnectionFragment extends Fragment {
                             inputSize.getWidth(),
                             inputSize.getHeight());
         } catch (final CameraAccessException e) {
-            Log.e(TAG,  "Exception!" + e);
+            Log.e(TAG, "Exception!" + e);
         } catch (final NullPointerException e) {
             // Currently an NPE is thrown when the Camera2API is used but not supported on the
             // device this code runs.
