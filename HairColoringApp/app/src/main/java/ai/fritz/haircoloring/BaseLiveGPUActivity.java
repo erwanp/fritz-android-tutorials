@@ -1,28 +1,30 @@
-package ai.fritz.heartbeat.activities;
+package ai.fritz.haircoloring;
 
-import android.graphics.Canvas;
 import android.media.Image;
 import android.media.ImageReader;
 import android.os.Bundle;
 import android.util.Size;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import ai.fritz.heartbeat.R;
-import ai.fritz.heartbeat.ui.OverlayView;
+import ai.fritz.vision.FritzSurfaceView;
 import ai.fritz.vision.FritzVisionImage;
 import ai.fritz.vision.FritzVisionOrientation;
 import ai.fritz.vision.ImageRotation;
 
-public abstract class BaseLiveVideoActivity extends BaseCameraActivity implements ImageReader.OnImageAvailableListener {
+public abstract class BaseLiveGPUActivity extends BaseCameraActivity implements ImageReader.OnImageAvailableListener {
 
-    private static final String TAG = BaseLiveVideoActivity.class.getSimpleName();
+    private static final String TAG = BaseLiveGPUActivity.class.getSimpleName();
     private AtomicBoolean computing = new AtomicBoolean(false);
-    protected FritzVisionImage fritzVisionImage;
 
     private ImageRotation imageRotation;
     protected Button chooseModelBtn;
+    protected ImageButton cameraSwitchBtn;
+    protected FritzVisionImage fritzVisionImage;
+    protected FritzSurfaceView fritzSurfaceView;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -33,21 +35,21 @@ public abstract class BaseLiveVideoActivity extends BaseCameraActivity implement
     public void onPreviewSizeChosen(final Size size, final Size cameraSize, final int rotation) {
         imageRotation = FritzVisionOrientation.getImageRotationFromCamera(this, cameraId);
         chooseModelBtn = findViewById(R.id.chose_model_btn);
+        cameraSwitchBtn = findViewById(R.id.camera_switch_btn);
+        fritzSurfaceView = findViewById(R.id.gpuimageview);
 
-        setCallback(
-                new OverlayView.DrawCallback() {
-                    @Override
-                    public void drawCallback(final Canvas canvas) {
-                        handleDrawingResult(canvas, cameraSize);
-                    }
-                });
+        cameraSwitchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toggleCameraFacingDirection();
+            }
+        });
 
-        onCameraSetup(cameraSize);
     }
 
     @Override
     public void onImageAvailable(final ImageReader reader) {
-        Image image = reader.acquireLatestImage();
+        final Image image = reader.acquireLatestImage();
 
         if (image == null) {
             return;
@@ -58,32 +60,17 @@ public abstract class BaseLiveVideoActivity extends BaseCameraActivity implement
             return;
         }
         fritzVisionImage = FritzVisionImage.fromMediaImage(image, imageRotation);
+        runInference(fritzVisionImage);
         image.close();
-
-        runInBackground(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        runInference(fritzVisionImage);
-                        requestRender();
-                        computing.set(false);
-                    }
-                });
+        computing.set(false);
     }
 
-    @Override
-    protected int getLayoutId() {
-        return R.layout.camera_connection_fragment_tracking;
-    }
+    protected abstract int getLayoutId();
 
     @Override
     public void onSetDebug(final boolean debug) {
 
     }
-
-    protected abstract void onCameraSetup(Size cameraSize);
-
-    protected abstract void handleDrawingResult(Canvas canvas, Size cameraSize);
 
     protected abstract void runInference(FritzVisionImage fritzVisionImage);
 }

@@ -20,14 +20,15 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import ai.fritz.core.Fritz;
-import ai.fritz.fritzvisionpetsegmentationmodel.PetSegmentationOnDeviceModel;
+import ai.fritz.fritzvisionpetsegmentationmodel.PetSegmentationOnDeviceModelFast;
 import ai.fritz.vision.FritzVision;
 import ai.fritz.vision.FritzVisionImage;
 import ai.fritz.vision.FritzVisionOrientation;
-import ai.fritz.vision.imagesegmentation.FritzVisionSegmentPredictor;
-import ai.fritz.vision.imagesegmentation.FritzVisionSegmentPredictorOptions;
-import ai.fritz.vision.imagesegmentation.FritzVisionSegmentResult;
-import ai.fritz.vision.imagesegmentation.MaskType;
+import ai.fritz.vision.ImageRotation;
+import ai.fritz.vision.imagesegmentation.FritzVisionSegmentationPredictor;
+import ai.fritz.vision.imagesegmentation.FritzVisionSegmentationPredictorOptions;
+import ai.fritz.vision.imagesegmentation.FritzVisionSegmentationResult;
+import ai.fritz.vision.imagesegmentation.MaskClass;
 
 
 public class MainActivity extends BaseCameraActivity implements ImageReader.OnImageAvailableListener {
@@ -35,10 +36,10 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
     private static final String API_KEY = "bbe75c73f8b24e63bc05bf81ed9d2829";
 
     private AtomicBoolean shouldSample = new AtomicBoolean(true);
-    private FritzVisionSegmentPredictor predictor;
-    private int imgRotation;
+    private FritzVisionSegmentationPredictor predictor;
+    private ImageRotation imgRotation;
 
-    private FritzVisionSegmentResult segmentResult;
+    private FritzVisionSegmentationResult segmentResult;
     private FritzVisionImage visionImage;
 
     Button snapshotButton;
@@ -48,7 +49,7 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
     OverlayView snapshotOverlay;
     ProgressBar snapshotProcessingSpinner;
     Button closeButton;
-    FritzVisionSegmentPredictorOptions options;
+    FritzVisionSegmentationPredictorOptions options;
 
     Bitmap petBitmapToSave;
 
@@ -57,10 +58,9 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
         super.onCreate(savedInstanceState);
         Fritz.configure(this, API_KEY);
 
-        PetSegmentationOnDeviceModel onDeviceModel = new PetSegmentationOnDeviceModel();
-        options = new FritzVisionSegmentPredictorOptions.Builder()
-                .targetConfidenceThreshold(.4f)
-                .build();
+        PetSegmentationOnDeviceModelFast onDeviceModel = new PetSegmentationOnDeviceModelFast();
+        options = new FritzVisionSegmentationPredictorOptions();
+        options.confidenceThreshold = .4f;
         predictor = FritzVision.ImageSegmentation.getPredictor(onDeviceModel, options);
     }
 
@@ -89,7 +89,7 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
                     return;
                 }
 
-                Bitmap maskBitmap = segmentResult.buildSingleClassMask(MaskType.PET, 255, options.getTargetConfidenceThreshold(), options.getTargetConfidenceThreshold());
+                Bitmap maskBitmap = segmentResult.buildSingleClassMask(MaskClass.PET, 255, options.confidenceThreshold, options.confidenceThreshold);
                 Bitmap petBitmap = visionImage.mask(maskBitmap, true);
 
                 if (petBitmap == null) {

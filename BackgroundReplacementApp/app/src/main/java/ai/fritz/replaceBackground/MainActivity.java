@@ -26,14 +26,15 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import ai.fritz.core.Fritz;
 import ai.fritz.core.utils.BitmapUtils;
-import ai.fritz.fritzvisionpeoplesegmentationmedium.PeopleSegmentMediumOnDeviceModel;
+import ai.fritz.fritzvisionpeoplesegmentationaccurate.PeopleSegmentationOnDeviceModelAccurate;
 import ai.fritz.vision.FritzVision;
 import ai.fritz.vision.FritzVisionImage;
 import ai.fritz.vision.FritzVisionOrientation;
-import ai.fritz.vision.imagesegmentation.FritzVisionSegmentPredictor;
-import ai.fritz.vision.imagesegmentation.FritzVisionSegmentPredictorOptions;
-import ai.fritz.vision.imagesegmentation.FritzVisionSegmentResult;
-import ai.fritz.vision.imagesegmentation.MaskType;
+import ai.fritz.vision.ImageRotation;
+import ai.fritz.vision.imagesegmentation.FritzVisionSegmentationPredictor;
+import ai.fritz.vision.imagesegmentation.FritzVisionSegmentationPredictorOptions;
+import ai.fritz.vision.imagesegmentation.FritzVisionSegmentationResult;
+import ai.fritz.vision.imagesegmentation.MaskClass;
 
 
 public class MainActivity extends BaseCameraActivity implements ImageReader.OnImageAvailableListener {
@@ -41,10 +42,10 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
     private static final int SELECT_IMAGE = 1;
 
     private AtomicBoolean shouldSample = new AtomicBoolean(true);
-    private FritzVisionSegmentPredictor predictor;
-    private int imgRotation;
+    private FritzVisionSegmentationPredictor predictor;
+    private ImageRotation imgRotation;
 
-    private FritzVisionSegmentResult segmentResult;
+    private FritzVisionSegmentationResult segmentResult;
     private FritzVisionImage visionImage;
 
     Button snapshotButton;
@@ -62,10 +63,9 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
         super.onCreate(savedInstanceState);
         Fritz.configure(getApplicationContext(), "bbe75c73f8b24e63bc05bf81ed9d2829");
 
-        PeopleSegmentMediumOnDeviceModel onDeviceModel = new PeopleSegmentMediumOnDeviceModel();
-        FritzVisionSegmentPredictorOptions options = new FritzVisionSegmentPredictorOptions.Builder()
-                .targetConfidenceThreshold(.4f)
-                .build();
+        PeopleSegmentationOnDeviceModelAccurate onDeviceModel = new PeopleSegmentationOnDeviceModelAccurate();
+        FritzVisionSegmentationPredictorOptions options = new FritzVisionSegmentationPredictorOptions();
+        options.confidenceThreshold = .4f;
         predictor = FritzVision.ImageSegmentation.getPredictor(onDeviceModel, options);
     }
 
@@ -133,13 +133,13 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
             public void drawCallback(final Canvas canvas) {
 
                 // If the prediction has not run
-                if(segmentResult == null) {
+                if (segmentResult == null) {
                     return;
                 }
 
                 // Show the people segmentation result when the background hasn't been chosen.
                 if (backgroundBitmap == null) {
-                    Bitmap personMask = segmentResult.buildSingleClassMask(MaskType.PERSON, 180, .5f, .5f);
+                    Bitmap personMask = segmentResult.buildSingleClassMask(MaskClass.PERSON, 180, .5f, .5f);
                     Bitmap result = visionImage.overlay(personMask);
                     Bitmap scaledBitmap = BitmapUtils.resize(result, cameraSize.getWidth(), cameraSize.getHeight());
                     canvas.drawBitmap(scaledBitmap, new Matrix(), new Paint());
@@ -153,7 +153,7 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
                 // Draw the masked bitmap
                 long startTime = System.currentTimeMillis();
                 // Use a max alpha of 255 so that there isn't any transparency in the mask.
-                Bitmap maskedBitmap = segmentResult.buildSingleClassMask(MaskType.PERSON, 255, .5f, .5f);
+                Bitmap maskedBitmap = segmentResult.buildSingleClassMask(MaskClass.PERSON, 255, .5f, .5f);
                 Bitmap croppedMask = visionImage.mask(maskedBitmap, true);
                 Log.d(TAG, "Masked bitmap took " + (System.currentTimeMillis() - startTime) + "ms to create.");
 

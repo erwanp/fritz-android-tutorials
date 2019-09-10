@@ -4,13 +4,17 @@ import android.graphics.Canvas;
 import android.media.Image;
 import android.util.Size;
 
+import java.util.List;
+
 import ai.fritz.core.Fritz;
 import ai.fritz.poseestimationmodel.PoseEstimationOnDeviceModel;
 import ai.fritz.vision.FritzVision;
 import ai.fritz.vision.FritzVisionImage;
 import ai.fritz.vision.FritzVisionOrientation;
+import ai.fritz.vision.ImageRotation;
 import ai.fritz.vision.poseestimation.FritzVisionPosePredictor;
 import ai.fritz.vision.poseestimation.FritzVisionPoseResult;
+import ai.fritz.vision.poseestimation.Pose;
 
 
 public class MainActivity extends LiveCameraActivity {
@@ -43,7 +47,7 @@ public class MainActivity extends LiveCameraActivity {
     @Override
     protected void setupImageForPrediction(Image image) {
         // Set the rotation
-        int imageRotation = FritzVisionOrientation.getImageRotationFromCamera(this, cameraId);
+        ImageRotation imageRotation = FritzVisionOrientation.getImageRotationFromCamera(this, cameraId);
         // STEP 2: Create the FritzVisionImage object from media.Image
         // ------------------------------------------------------------------------
         visionImage = FritzVisionImage.fromMediaImage(image, imageRotation);
@@ -65,7 +69,15 @@ public class MainActivity extends LiveCameraActivity {
         // STEP 4: Draw the prediction result
         // ----------------------------------
         if(poseResult != null) {
-            poseResult.drawPoses(canvas, cameraSize);
+            List<Pose> poses = poseResult.getPoses();
+
+            if(poses.size() > 0) {
+                for(Pose pose: poses) {
+                    pose.draw(canvas);
+                }
+            }
+
+
         }
         // ----------------------------------
         // END STEP 4

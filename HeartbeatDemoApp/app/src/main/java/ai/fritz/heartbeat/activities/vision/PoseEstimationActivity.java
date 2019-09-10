@@ -3,6 +3,8 @@ package ai.fritz.heartbeat.activities.vision;
 import android.graphics.Canvas;
 import android.util.Size;
 
+import java.util.List;
+
 import ai.fritz.core.FritzOnDeviceModel;
 import ai.fritz.heartbeat.activities.BaseLiveVideoActivity;
 import ai.fritz.poseestimationmodel.PoseEstimationOnDeviceModel;
@@ -10,6 +12,7 @@ import ai.fritz.vision.FritzVision;
 import ai.fritz.vision.FritzVisionImage;
 import ai.fritz.vision.poseestimation.FritzVisionPosePredictor;
 import ai.fritz.vision.poseestimation.FritzVisionPoseResult;
+import ai.fritz.vision.poseestimation.Pose;
 
 public class PoseEstimationActivity extends BaseLiveVideoActivity {
 
@@ -25,7 +28,10 @@ public class PoseEstimationActivity extends BaseLiveVideoActivity {
     @Override
     protected void handleDrawingResult(Canvas canvas, Size cameraSize) {
         if (poseResult != null) {
-            poseResult.drawPoses(canvas, cameraSize);
+            List<Pose> poseList = poseResult.getPoses();
+            for (Pose pose : poseList) {
+                pose.draw(canvas);
+            }
         }
     }
 

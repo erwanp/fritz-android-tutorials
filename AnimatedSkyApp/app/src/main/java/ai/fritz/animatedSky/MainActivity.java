@@ -24,14 +24,15 @@ import java.io.InputStream;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import ai.fritz.core.Fritz;
-import ai.fritz.fritzvisionskysegmentationmodel.SkySegmentationOnDeviceModel;
+import ai.fritz.fritzvisionskysegmentationmodel.SkySegmentationOnDeviceModelFast;
 import ai.fritz.vision.FritzVision;
 import ai.fritz.vision.FritzVisionImage;
 import ai.fritz.vision.FritzVisionOrientation;
-import ai.fritz.vision.imagesegmentation.FritzVisionSegmentPredictor;
-import ai.fritz.vision.imagesegmentation.FritzVisionSegmentPredictorOptions;
-import ai.fritz.vision.imagesegmentation.FritzVisionSegmentResult;
-import ai.fritz.vision.imagesegmentation.MaskType;
+import ai.fritz.vision.ImageRotation;
+import ai.fritz.vision.imagesegmentation.FritzVisionSegmentationPredictor;
+import ai.fritz.vision.imagesegmentation.FritzVisionSegmentationPredictorOptions;
+import ai.fritz.vision.imagesegmentation.FritzVisionSegmentationResult;
+import ai.fritz.vision.imagesegmentation.MaskClass;
 
 
 public class MainActivity extends BaseCameraActivity implements ImageReader.OnImageAvailableListener {
@@ -39,8 +40,8 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
     private static final String API_KEY = "bbe75c73f8b24e63bc05bf81ed9d2829";
 
     private AtomicBoolean shouldSample = new AtomicBoolean(true);
-    private FritzVisionSegmentPredictor predictor;
-    private int imgRotation;
+    private FritzVisionSegmentationPredictor predictor;
+    private ImageRotation imgRotation;
 
     private static final int DURATION = 5000;
 
@@ -50,9 +51,8 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
     private float mScaleFactor;
     private RectF mDisplayRect = new RectF();
 
-    private FritzVisionSegmentResult segmentResult;
+    private FritzVisionSegmentationResult segmentResult;
     private FritzVisionImage visionImage;
-
 
     Button snapshotButton;
     RelativeLayout previewLayout;
@@ -60,17 +60,16 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
     OverlayView snapshotOverlay;
     ProgressBar snapshotProcessingSpinner;
     Button closeButton;
-    FritzVisionSegmentPredictorOptions options;
+    FritzVisionSegmentationPredictorOptions options;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fritz.configure(getApplicationContext(), API_KEY);
 
-        SkySegmentationOnDeviceModel onDeviceModel = new SkySegmentationOnDeviceModel();
-        options = new FritzVisionSegmentPredictorOptions.Builder()
-                .targetConfidenceThreshold(.6f)
-                .build();
+        SkySegmentationOnDeviceModelFast onDeviceModel = new SkySegmentationOnDeviceModelFast();
+        options = new FritzVisionSegmentationPredictorOptions();
+        options.confidenceThreshold = .6f;
         predictor = FritzVision.ImageSegmentation.getPredictor(onDeviceModel, options);
     }
 
@@ -101,7 +100,7 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
                 }
 
                 // Create a bitmap for undetected items. Scale it up for the camera.
-                Bitmap notSkyMask = segmentResult.buildSingleClassMask(MaskType.NONE, 255, 1, options.getTargetConfidenceThreshold());
+                Bitmap notSkyMask = segmentResult.buildSingleClassMask(MaskClass.NONE);
                 Bitmap notSkyBitmap = visionImage.mask(notSkyMask);
 
                 // Scale the non-sky bitmap (scale up from preview size (size of the original image)
@@ -243,7 +242,7 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
         }
         // Feel free to uncomment if you'd like to try it out with a static image
 //         Bitmap testImage = getBitmapForAsset(this, "climbing.png");
-//         visionImage = FritzVisionImage.fromBitmap(testImage, 0);
+//         visionImage = FritzVisionImage.fromBitmap(testImage, ImageRotation.ROTATE_0);
 
         // Using the image from the camera
         visionImage = FritzVisionImage.fromMediaImage(image, imgRotation);

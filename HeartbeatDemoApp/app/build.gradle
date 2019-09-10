@@ -37,14 +37,14 @@ dependencies {
     implementation 'com.jakewharton:butterknife:8.8.1'
 
     implementation "ai.fritz:vision:${sdk_version}"
-    implementation "ai.fritz:custom-model-tflite:${sdk_version}"
-    implementation "ai.fritz:custom-model-tfmobile:${sdk_version}"
+    implementation "ai.fritz:custom-model-tensorflow-lite:${sdk_version}"
+    implementation "ai.fritz:custom-model-tensorflow-mobile:${sdk_version}"
 
-    implementation "ai.fritz:vision-image-label-model:${sdk_version}"
-    implementation "ai.fritz:vision-object-detection-model:${sdk_version}"
-    implementation "ai.fritz:vision-style-painting-models:${sdk_version}"
-    implementation "ai.fritz:vision-pose-estimation-model:${sdk_version}"
-    implementation "ai.fritz:vision-hair-segmentation-model:${sdk_version}"
+    implementation "ai.fritz:vision-labeling-model:1.0.0"
+    implementation "ai.fritz:vision-object-detection-model:1.0.0"
+    implementation "ai.fritz:vision-style-painting-models:1.0.0"
+    implementation "ai.fritz:vision-pose-estimation-model:1.0.0"
+    implementation "ai.fritz:vision-hair-segmentation-model-fast:1.0.0"
 
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
