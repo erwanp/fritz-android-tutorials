@@ -28,7 +28,7 @@ public class MainActivity extends LiveCameraActivity {
     @Override
     protected void initializeFritz() {
         // TODO: Uncomment this and modify your api key above.
-         Fritz.configure(this, API_KEY);
+        Fritz.configure(this, API_KEY);
     }
 
     @Override
@@ -68,15 +68,12 @@ public class MainActivity extends LiveCameraActivity {
     protected void showResult(Canvas canvas, Size cameraSize) {
         // STEP 4: Draw the prediction result
         // ----------------------------------
-        if(poseResult != null) {
+        if (poseResult != null) {
             List<Pose> poses = poseResult.getPoses();
 
-            if(poses.size() > 0) {
-                for(Pose pose: poses) {
-                    pose.draw(canvas);
-                }
+            for (Pose pose : poses) {
+                pose.draw(canvas);
             }
-
 
         }
         // ----------------------------------
