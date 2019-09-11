@@ -17,6 +17,7 @@ import ai.fritz.heartbeat.ui.ResultsView;
 import ai.fritz.vision.FritzVision;
 import ai.fritz.vision.FritzVisionImage;
 import ai.fritz.vision.FritzVisionOrientation;
+import ai.fritz.vision.ImageRotation;
 import ai.fritz.vision.imagelabeling.FritzVisionLabelPredictor;
 import ai.fritz.vision.imagelabeling.FritzVisionLabelResult;
 import ai.fritz.visionlabel.ImageLabelOnDeviceModel;
@@ -37,7 +38,7 @@ public class ImageLabelingActivity extends BaseCameraActivity implements ImageRe
     private FritzVisionLabelPredictor predictor;
     private FritzVisionLabelResult labelResult;
 
-    private int imgRotation;
+    private ImageRotation imgRotation;
 
     @BindView(R.id.app_toolbar)
     Toolbar appBar;

@@ -1,12 +1,6 @@
 package ai.fritz.petdetector;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.RectF;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.media.ImageReader;
 import android.os.Bundle;
@@ -20,10 +14,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import ai.fritz.core.Fritz;
 import ai.fritz.fritzvisionobjectmodel.ObjectDetectionOnDeviceModel;
 import ai.fritz.vision.FritzVision;
-import ai.fritz.vision.FritzVisionCropAndScale;
 import ai.fritz.vision.FritzVisionImage;
 import ai.fritz.vision.FritzVisionObject;
 import ai.fritz.vision.FritzVisionOrientation;
+import ai.fritz.vision.ImageRotation;
 import ai.fritz.vision.objectdetection.FritzVisionObjectPredictor;
 import ai.fritz.vision.objectdetection.FritzVisionObjectPredictorOptions;
 import ai.fritz.vision.objectdetection.FritzVisionObjectResult;
@@ -56,10 +50,8 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
         // STEP 1: Get the predictor and set the options.
         // ----------------------------------------------
         // TODO: Add the predictor snippet here
-        FritzVisionObjectPredictorOptions options = new FritzVisionObjectPredictorOptions.Builder()
-                .confidenceThreshold(.4f)
-                .cropAndScaleOption(FritzVisionCropAndScale.SCALE_TO_FIT)
-                .build();
+        FritzVisionObjectPredictorOptions options = new FritzVisionObjectPredictorOptions();
+        options.confidenceThreshold = .4f;
         ObjectDetectionOnDeviceModel onDeviceModel = new ObjectDetectionOnDeviceModel();
         predictor = FritzVision.ObjectDetection.getPredictor(onDeviceModel, options);
         // ----------------------------------------------
@@ -97,18 +89,13 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
                         boolean hasCat = false;
                         boolean hasDog = false;
 
-                        Size rotatedSize = visionImage.getRotatedBitmapDimensions();
-
                         // Go through all results
                         for (FritzVisionObject object : result.getObjects()) {
                             String labelText = object.getVisionLabel().getText();
 
                             // Only show results for dogs and cats
                             if (filteredObjects.contains(labelText)) {
-                                float scaleFactorWidth = ((float) cameraViewSize.getWidth()) / rotatedSize.getWidth();
-                                float scaleFactorHeight = ((float) cameraViewSize.getHeight()) / rotatedSize.getHeight();
-
-                                object.drawOnCanvas(getApplicationContext(), canvas, scaleFactorWidth, scaleFactorHeight);
+                                object.draw(canvas);
 
                                 if (labelText.equalsIgnoreCase("cat")) {
                                     hasCat = true;
@@ -155,7 +142,7 @@ public class MainActivity extends BaseCameraActivity implements ImageReader.OnIm
         // STEP 2: Create the FritzVisionImage object from media.Image
         // ------------------------------------------------------------------------
         // TODO: Add code for creating FritzVisionImage from a media.Image object
-        int rotationFromCamera = FritzVisionOrientation.getImageRotationFromCamera(this, cameraId);
+        ImageRotation rotationFromCamera = FritzVisionOrientation.getImageRotationFromCamera(this, cameraId);
         visionImage = FritzVisionImage.fromMediaImage(image, rotationFromCamera);
         // ------------------------------------------------------------------------
         // END STEP 2

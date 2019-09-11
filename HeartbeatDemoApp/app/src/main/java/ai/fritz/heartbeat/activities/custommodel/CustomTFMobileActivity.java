@@ -20,6 +20,7 @@ import ai.fritz.heartbeat.ui.ResultsView;
 import ai.fritz.core.utils.BitmapUtils;
 import ai.fritz.vision.FritzVisionImage;
 import ai.fritz.vision.FritzVisionOrientation;
+import ai.fritz.vision.ImageRotation;
 
 
 public class CustomTFMobileActivity extends BaseCameraActivity implements OnImageAvailableListener {
@@ -34,6 +35,8 @@ public class CustomTFMobileActivity extends BaseCameraActivity implements OnImag
     private static final String INPUT_NAME = "input";
     private static final String OUTPUT_NAME = "output";
 
+    private static final Size MODEL_SIZE = new Size(INPUT_SIZE, INPUT_SIZE);
+
 
     private static final String LABEL_FILE =
             "file:///android_asset/imagenet_comp_graph_label_strings.txt";
@@ -44,7 +47,7 @@ public class CustomTFMobileActivity extends BaseCameraActivity implements OnImag
 
     private AtomicBoolean computing = new AtomicBoolean(false);
 
-    private int imageRotation;
+    private ImageRotation imageRotation;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -99,11 +102,11 @@ public class CustomTFMobileActivity extends BaseCameraActivity implements OnImag
                     @Override
                     public void run() {
                         final long startTime = SystemClock.uptimeMillis();
-                        Bitmap resizedBitmap = BitmapUtils.resize(fritzImage.rotateBitmap(), INPUT_SIZE, INPUT_SIZE);
+                        Bitmap resizedBitmap = fritzImage.prepare(MODEL_SIZE);
                         final List<Classifier.Recognition> results = classifier.recognizeImage(resizedBitmap);
                         Log.d(TAG, "Detect: " + results);
                         if (resultsView == null) {
-                            resultsView = (ResultsView) findViewById(R.id.results);
+                            resultsView = findViewById(R.id.results);
                         }
                         resultsView.setResults(results);
                         Log.d(TAG, "INFERENCE TIME:" + (SystemClock.uptimeMillis() - startTime));

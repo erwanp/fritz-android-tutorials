@@ -17,8 +17,6 @@ import ai.fritz.vision.styletransfer.FritzVisionStyleResult;
 
 
 public class StyleTransferActivity extends BaseRecordingActivity implements OnImageAvailableListener {
-    private static final int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
-
     private FritzVisionStylePredictor predictor;
 
     @Override
@@ -40,9 +38,7 @@ public class StyleTransferActivity extends BaseRecordingActivity implements OnIm
     @Override
     protected void loadPredictor(int choice) {
         FritzOnDeviceModel onDeviceModel = getModel(choice);
-        FritzVisionStylePredictorOptions options = new FritzVisionStylePredictorOptions.Builder()
-                .numThreads(NUMBER_OF_CORES * 2).build();
-
+        FritzVisionStylePredictorOptions options = new FritzVisionStylePredictorOptions();
         predictor = FritzVision.StyleTransfer.getPredictor(onDeviceModel, options);
     }
 

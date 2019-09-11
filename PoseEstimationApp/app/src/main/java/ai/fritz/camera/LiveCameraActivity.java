@@ -13,8 +13,6 @@ import ai.fritz.poseestimationdemo.R;
 
 public abstract class LiveCameraActivity extends BaseCameraActivity implements ImageReader.OnImageAvailableListener {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
-
     private static final Size DESIRED_PREVIEW_SIZE = new Size(1280, 960);
 
     private AtomicBoolean computing = new AtomicBoolean(false);

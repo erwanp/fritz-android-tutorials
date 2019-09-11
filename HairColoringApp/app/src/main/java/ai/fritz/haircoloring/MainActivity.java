@@ -1,95 +1,89 @@
 package ai.fritz.haircoloring;
 
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
-import android.graphics.RectF;
 import android.hardware.camera2.CameraCharacteristics;
-import android.media.Image;
+import android.os.Bundle;
 import android.util.Size;
 
+import com.github.veritas1.verticalslidecolorpicker.VerticalSlideColorPicker;
+
 import ai.fritz.core.Fritz;
-import ai.fritz.fritzvisionhairsegmentationmodel.HairSegmentationOnDeviceModel;
+import ai.fritz.fritzvisionhairsegmentationmodel.HairSegmentationOnDeviceModelFast;
 import ai.fritz.vision.FritzVision;
 import ai.fritz.vision.FritzVisionImage;
-import ai.fritz.vision.FritzVisionOrientation;
 import ai.fritz.vision.imagesegmentation.BlendMode;
-import ai.fritz.vision.imagesegmentation.BlendModeType;
-import ai.fritz.vision.imagesegmentation.FritzVisionSegmentPredictor;
-import ai.fritz.vision.imagesegmentation.FritzVisionSegmentResult;
-import ai.fritz.vision.imagesegmentation.MaskType;
-import ai.fritz.vision.imagesegmentation.SegmentOnDeviceModel;
+import ai.fritz.vision.imagesegmentation.FritzVisionSegmentationPredictor;
+import ai.fritz.vision.imagesegmentation.FritzVisionSegmentationPredictorOptions;
+import ai.fritz.vision.imagesegmentation.FritzVisionSegmentationResult;
+import ai.fritz.vision.imagesegmentation.MaskClass;
+import ai.fritz.vision.imagesegmentation.SegmentationOnDeviceModel;
 
 
-public class MainActivity extends LiveCameraActivity {
-
+public class MainActivity extends BaseLiveGPUActivity {
     private static final String API_KEY = "bbe75c73f8b24e63bc05bf81ed9d2829";
-    private static final int HAIR_COLOR = Color.RED;
 
-    private FritzVisionSegmentPredictor predictor;
-    private FritzVisionImage visionImage;
-    private FritzVisionSegmentResult segmentResult;
+    private int maskColor = Color.RED;
+    private static final float HAIR_CONFIDENCE_THRESHOLD = .5f;
+    private static final int HAIR_ALPHA = 180;
+    private static final BlendMode BLEND_MODE = BlendMode.SOFT_LIGHT;
+    private static final boolean RUN_ON_GPU = true;
 
-    @Override
-    protected void initializeFritz() {
-        // TODO: Modify your api key above.
+    private FritzVisionSegmentationPredictor hairPredictor;
+    private FritzVisionSegmentationResult hairResult;
+    private FritzVisionSegmentationPredictorOptions options;
+
+    private SegmentationOnDeviceModel onDeviceModel;
+
+    public void onCreate(final Bundle savedInstanceState) {
+        setCameraFacingDirection(CameraCharacteristics.LENS_FACING_FRONT);
+        super.onCreate(savedInstanceState);
         Fritz.configure(this, API_KEY);
-    }
 
-    @Override
-    protected void setupPredictor() {
-        // STEP 1: Get the predictor and set the options.
-        // ----------------------------------------------
-        // A FritzOnDeviceModel object is available when a model has been
-        // successfully downloaded and included with the app.
-        // TODO: Create a predictor
-        SegmentOnDeviceModel onDeviceModel = new HairSegmentationOnDeviceModel();
-        predictor = FritzVision.ImageSegmentation.getPredictor(onDeviceModel);
-        // ----------------------------------------------
-        // END STEP 1
-    }
+        // Create the segmentation options.
+        options = new FritzVisionSegmentationPredictorOptions();
+        options.confidenceThreshold = HAIR_CONFIDENCE_THRESHOLD;
+        options.useGPU = RUN_ON_GPU;
 
-    @Override
-    protected void setupImageForPrediction(Image image) {
-        // STEP 2: Create the FritzVisionImage object from media.Image
-        // ------------------------------------------------------------------------
-        // TODO: Add code for creating FritzVisionImage from a media.Image object
-        int rotation = FritzVisionOrientation.getImageRotationFromCamera(this, cameraId);
-        visionImage = FritzVisionImage.fromMediaImage(image, rotation);
-        // ------------------------------------------------------------------------
-        // END STEP 2
-    }
+        // Set the on device model
+        onDeviceModel = new HairSegmentationOnDeviceModelFast();
 
-    @Override
-    protected void runInference() {
-        // STEP 3: Run predict on the image
-        // ---------------------------------------------------
-        segmentResult = predictor.predict(visionImage);
-        // ----------------------------------------------------
-        // END STEP 3
-    }
-
-    @Override
-    protected void showResult(Canvas canvas, Size cameraSize) {
-        // STEP 4: Draw the prediction result
-        // ----------------------------------
-        if (segmentResult != null && visionImage != null) {
-            BlendMode blendMode = BlendModeType.SOFT_LIGHT.create();
-            Bitmap maskBitmap = segmentResult.buildSingleClassMask(MaskType.HAIR, blendMode.getAlpha(), 1, .6f, HAIR_COLOR);
-
-            Bitmap blendedBitmap = visionImage.blend(maskBitmap, blendMode);
-            // Hacky but putting this here to mirror the result for selfies.
-            // TODO: Figure out how to apply the rotation to the preview camera session.
-            if (getCameraFacingDirection() == CameraCharacteristics.LENS_FACING_FRONT) {
-                Matrix m = new Matrix();
-                m.preScale(-1, 1);
-                m.postTranslate(canvas.getWidth(), 0);
-                canvas.setMatrix(m);
-            }
-            canvas.drawBitmap(blendedBitmap, null, new RectF(0, 0, cameraSize.getWidth(), cameraSize.getHeight()), null);
+        // Load the predictor when the activity is created (iff not running on the GPU)
+        if (!RUN_ON_GPU) {
+            hairPredictor = FritzVision.ImageSegmentation.getPredictor(onDeviceModel, options);
         }
-        // ----------------------------------
-        // END STEP 4
+    }
+
+    @Override
+    public void onPreviewSizeChosen(final Size size, final Size cameraSize, final int rotation) {
+        super.onPreviewSizeChosen(size, cameraSize, rotation);
+
+        VerticalSlideColorPicker colorPicker = findViewById(R.id.color_picker);
+
+        // Change the mask color upon using the slider
+        colorPicker.setOnColorChangeListener(new VerticalSlideColorPicker.OnColorChangeListener() {
+            @Override
+            public void onColorChange(int selectedColor) {
+                if (selectedColor != Color.TRANSPARENT) {
+                    maskColor = selectedColor;
+                }
+            }
+        });
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.camera_color_slider;
+    }
+
+    @Override
+    protected void runInference(FritzVisionImage fritzVisionImage) {
+        // If you're using the GPU, it MUST run on the same thread
+        if (RUN_ON_GPU && hairPredictor == null) {
+            hairPredictor = FritzVision.ImageSegmentation.getPredictor(onDeviceModel, options);
+        }
+        hairResult = hairPredictor.predict(fritzVisionImage);
+        Bitmap alphaMask = hairResult.buildSingleClassMask(MaskClass.HAIR, HAIR_ALPHA, .8f, options.confidenceThreshold, maskColor);
+        fritzSurfaceView.drawBlendedMask(fritzVisionImage, alphaMask, BLEND_MODE, getCameraFacingDirection() == CameraCharacteristics.LENS_FACING_FRONT);
     }
 }

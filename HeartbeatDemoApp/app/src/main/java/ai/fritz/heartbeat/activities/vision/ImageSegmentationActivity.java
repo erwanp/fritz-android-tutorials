@@ -14,19 +14,19 @@ import ai.fritz.heartbeat.R;
 import ai.fritz.vision.FritzVision;
 import ai.fritz.vision.FritzVisionImage;
 import ai.fritz.vision.PredictorStatusListener;
-import ai.fritz.vision.imagesegmentation.FritzVisionSegmentPredictor;
-import ai.fritz.vision.imagesegmentation.FritzVisionSegmentResult;
-import ai.fritz.vision.imagesegmentation.LivingRoomSegmentManagedModel;
-import ai.fritz.vision.imagesegmentation.OutdoorSegmentManagedModel;
-import ai.fritz.vision.imagesegmentation.PeopleSegmentManagedModel;
-import ai.fritz.vision.imagesegmentation.SegmentManagedModel;
-import ai.fritz.vision.imagesegmentation.SegmentOnDeviceModel;
+import ai.fritz.vision.imagesegmentation.FritzVisionSegmentationPredictor;
+import ai.fritz.vision.imagesegmentation.FritzVisionSegmentationResult;
+import ai.fritz.vision.imagesegmentation.LivingRoomSegmentationManagedModelFast;
+import ai.fritz.vision.imagesegmentation.OutdoorSegmentationManagedModelFast;
+import ai.fritz.vision.imagesegmentation.PeopleSegmentationManagedModelFast;
+import ai.fritz.vision.imagesegmentation.SegmentationManagedModel;
+import ai.fritz.vision.imagesegmentation.SegmentationOnDeviceModel;
 
 
 public class ImageSegmentationActivity extends BaseRecordingActivity implements OnImageAvailableListener {
 
     private static final String TAG = ImageSegmentationActivity.class.getSimpleName();
-    private FritzVisionSegmentPredictor predictor;
+    private FritzVisionSegmentationPredictor predictor;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -40,27 +40,27 @@ public class ImageSegmentationActivity extends BaseRecordingActivity implements 
 
     @Override
     protected Bitmap runPrediction(FritzVisionImage visionImage, Size cameraViewSize) {
-        FritzVisionSegmentResult segmentResult = predictor.predict(visionImage);
+        FritzVisionSegmentationResult segmentResult = predictor.predict(visionImage);
         Bitmap bitmap = segmentResult.buildMultiClassMask();
         return visionImage.overlay(bitmap);
     }
 
     @Override
     protected void loadPredictor(int choice) {
-        SegmentManagedModel managedModel = getManagedModel(choice);
+        SegmentationManagedModel managedModel = getManagedModel(choice);
         FritzOptional<FritzOnDeviceModel> onDeviceModelOpt = FritzModelManager.getActiveOnDeviceModel(managedModel.getModelId());
         if (onDeviceModelOpt.isPresent()) {
             showPredictorReadyViews();
             FritzOnDeviceModel onDeviceModel = onDeviceModelOpt.get();
-            SegmentOnDeviceModel segmentOnDeviceModel = SegmentOnDeviceModel.mergeFromManagedModel(
+            SegmentationOnDeviceModel segmentOnDeviceModel = SegmentationOnDeviceModel.mergeFromManagedModel(
                     onDeviceModel,
                     managedModel);
             predictor = FritzVision.ImageSegmentation.getPredictor(segmentOnDeviceModel);
         } else {
             showPredictorNotReadyViews();
-            FritzVision.ImageSegmentation.loadPredictor(managedModel, new PredictorStatusListener<FritzVisionSegmentPredictor>() {
+            FritzVision.ImageSegmentation.loadPredictor(managedModel, new PredictorStatusListener<FritzVisionSegmentationPredictor>() {
                 @Override
-                public void onPredictorReady(FritzVisionSegmentPredictor segmentPredictor) {
+                public void onPredictorReady(FritzVisionSegmentationPredictor segmentPredictor) {
                     Log.d(TAG, "Segmentation predictor is ready");
                     predictor = segmentPredictor;
                     showPredictorReadyViews();
@@ -69,15 +69,15 @@ public class ImageSegmentationActivity extends BaseRecordingActivity implements 
         }
     }
 
-    private SegmentManagedModel getManagedModel(int choice) {
+    private SegmentationManagedModel getManagedModel(int choice) {
 
         switch (choice) {
             case (1):
-                return new LivingRoomSegmentManagedModel();
+                return new LivingRoomSegmentationManagedModelFast();
             case (2):
-                return new OutdoorSegmentManagedModel();
+                return new OutdoorSegmentationManagedModelFast();
             default:
-                return new PeopleSegmentManagedModel();
+                return new PeopleSegmentationManagedModelFast();
         }
     }
 }

@@ -12,7 +12,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Size;
 import android.view.KeyEvent;
@@ -20,12 +19,18 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import ai.fritz.haircoloring.R;
+import ai.fritz.haircoloring.CameraConnectionFragment;
+import ai.fritz.haircoloring.OverlayView;
+
 
 public abstract class BaseCameraActivity extends AppCompatActivity implements OnImageAvailableListener {
     private static final String TAG = BaseCameraActivity.class.getSimpleName();
     private static final int PERMISSIONS_REQUEST = 1;
-
     private static final long DELAY_OVERLAY_VISIBLE = 500;
+
     private static final String PERMISSION_CAMERA = Manifest.permission.CAMERA;
     private static final String PERMISSION_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE;
     private boolean useCamera2API;
@@ -36,7 +41,7 @@ public abstract class BaseCameraActivity extends AppCompatActivity implements On
     private HandlerThread handlerThread;
 
     protected String cameraId;
-    protected int cameraFacingDirection = CameraCharacteristics.LENS_FACING_FRONT;
+    protected int cameraFacingDirection = CameraCharacteristics.LENS_FACING_BACK;
     CameraConnectionFragment fragment;
 
     @Override
@@ -45,7 +50,7 @@ public abstract class BaseCameraActivity extends AppCompatActivity implements On
         super.onCreate(null);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_camera);
 
         if (hasPermission()) {
             setFragment();
@@ -100,6 +105,10 @@ public abstract class BaseCameraActivity extends AppCompatActivity implements On
 
     protected int getCameraFacingDirection() {
         return cameraFacingDirection;
+    }
+
+    protected void setCameraFacingDirection(int cameraFacingDirection) {
+        this.cameraFacingDirection = cameraFacingDirection;
     }
 
     protected synchronized void runInBackground(final Runnable r) {
@@ -165,8 +174,10 @@ public abstract class BaseCameraActivity extends AppCompatActivity implements On
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        final OverlayView overlay = findViewById(R.id.debug_overlay);
-                                                        overlay.setVisibility(View.VISIBLE);
+                                                        OverlayView overlay = findViewById(R.id.debug_overlay);
+                                                        if (overlay != null) {
+                                                            overlay.setVisibility(View.VISIBLE);
+                                                        }
                                                     }
                                                 });
                                             }
@@ -180,11 +191,14 @@ public abstract class BaseCameraActivity extends AppCompatActivity implements On
                 .commit();
 
         fragment.setCamera(cameraId);
+
     }
 
     protected void toggleCameraFacingDirection() {
         final OverlayView overlay = findViewById(R.id.debug_overlay);
-        overlay.setVisibility(View.INVISIBLE);
+        if (overlay != null) {
+            overlay.setVisibility(View.INVISIBLE);
+        }
 
         if (cameraFacingDirection == CameraCharacteristics.LENS_FACING_FRONT) {
             cameraFacingDirection = CameraCharacteristics.LENS_FACING_BACK;
@@ -279,7 +293,9 @@ public abstract class BaseCameraActivity extends AppCompatActivity implements On
 
     protected abstract int getLayoutId();
 
-    protected abstract Size getDesiredPreviewFrameSize();
+    protected Size getDesiredPreviewFrameSize() {
+        return new Size(640, 480);
+    }
 }
 
 

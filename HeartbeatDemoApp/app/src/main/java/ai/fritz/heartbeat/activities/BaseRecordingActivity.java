@@ -31,6 +31,7 @@ import ai.fritz.heartbeat.ui.OverlayView;
 import ai.fritz.heartbeat.utils.VideoProcessingQueue;
 import ai.fritz.vision.FritzVisionImage;
 import ai.fritz.vision.FritzVisionOrientation;
+import ai.fritz.vision.ImageRotation;
 
 
 public abstract class BaseRecordingActivity extends BaseCameraActivity implements OnImageAvailableListener {
@@ -44,7 +45,7 @@ public abstract class BaseRecordingActivity extends BaseCameraActivity implement
     private AtomicBoolean isRecording = new AtomicBoolean(false);
 
     private OverlayView overlayView;
-    private int imageRotationFromCamera;
+    private ImageRotation imageRotationFromCamera;
 
     private ChooseModelDialog imageSegDialog;
     private Button takeVideoBtn;
