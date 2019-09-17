@@ -1,14 +1,14 @@
-## Fritz AI
-Fritz AI helps you teach your applications how to see, hear, feel, think, and sense. Create ML-powered features in your mobile apps for both Android and iOS. Start with our ready-to-use feature APIs or connect and deploy your own custom models.
-
-[Sign up](https://app.fritz.ai/register) for an account on Fritz AI in order to get started with machine learning in your apps.
-
 # Examples for Android
 
 [ ![Codeship Status for fritzlabs/fritz-sdk-android](https://app.codeship.com/projects/c74152e0-65d1-0136-2d69-32e87736c6c6/status?branch=master)](https://app.codeship.com/projects/297281)
 [![Twitter](https://img.shields.io/badge/twitter-@fritzlabs-blue.svg?style=flat)](http://twitter.com/fritzlabs)
 
 Fritz is the machine learning platform for iOS and Android developers. [Sign up for a free account](https://app.fritz.ai/register) to see how you can include machine learning features in your app.
+
+## Fritz AI
+Fritz AI helps you teach your applications how to see, hear, feel, think, and sense. Create ML-powered features in your mobile apps for both Android and iOS. Start with our ready-to-use feature APIs or connect and deploy your own custom models.
+
+[Sign up](https://app.fritz.ai/register) for an account on Fritz AI in order to get started with machine learning in your apps.
 
 **Vision API: Prebuilt models that you can simply drop into your apps:**
 
