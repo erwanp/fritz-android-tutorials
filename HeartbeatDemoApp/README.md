@@ -10,11 +10,11 @@ Fritz AI helps you teach your applications how to see, hear, feel, think, and se
 
 **Vision API: Prebuilt models that you can simply drop into your apps:**
 
-- [Image Segmentation](https://www.fritz.ai/features/image-segmentation.html): Create pixel level masks of different objects in a scene. ([code](app/src/main/java/ai/fritz/heartbeat/activities/vision/ImageSegmentationActivity.java))
-- [Image Labeling](https://www.fritz.ai/features/image-labeling.html): Classify different objects in an video or image.([code](app/src/main/java/ai/fritz/heartbeat/activities/vision/ImageLabelingActivity.java))
-- [Pose Estimation](https://www.fritz.ai/features/pose-estimation.html): Identify and track a person's body position.([code](app/src/main/java/ai/fritz/heartbeat/activities/vision/PoseEstimationActivity.java))
-- [Object Detection](https://www.fritz.ai/features/object-detection.html): Detect multiple objects and track their location.([code](app/src/main/java/ai/fritz/heartbeat/activities/vision/ObjectDetectionActivity.java))
-- [Style Transfer](https://www.fritz.ai/features/style-transfer.html): Transform photos and videos into artistic masterpieces.([code](app/src/main/java/ai/fritz/heartbeat/activities/vision/StyleTransferActivity.java))
+- [Image Segmentation](https://www.fritz.ai/features/image-segmentation.html): Create pixel level masks of different objects in a scene ([code](app/src/main/java/ai/fritz/heartbeat/activities/vision/ImageSegmentationActivity.java)).
+- [Image Labeling](https://www.fritz.ai/features/image-labeling.html): Classify different objects in an video or image ([code](app/src/main/java/ai/fritz/heartbeat/activities/vision/ImageLabelingActivity.java)).
+- [Pose Estimation](https://www.fritz.ai/features/pose-estimation.html): Identify and track a person's body position ([code](app/src/main/java/ai/fritz/heartbeat/activities/vision/PoseEstimationActivity.java)).
+- [Object Detection](https://www.fritz.ai/features/object-detection.html): Detect multiple objects and track their location ([code](app/src/main/java/ai/fritz/heartbeat/activities/vision/ObjectDetectionActivity.java)).
+- [Style Transfer](https://www.fritz.ai/features/style-transfer.html): Transform photos and videos into artistic masterpieces ([code](app/src/main/java/ai/fritz/heartbeat/activities/vision/StyleTransferActivity.java)).
 
 **Custom Models: Deploy, Monitor, and Update your own models:**
 
