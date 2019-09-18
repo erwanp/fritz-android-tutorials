@@ -3,9 +3,10 @@
 [ ![Codeship Status for fritzlabs/fritz-sdk-android](https://app.codeship.com/projects/c74152e0-65d1-0136-2d69-32e87736c6c6/status?branch=master)](https://app.codeship.com/projects/297281)
 [![Twitter](https://img.shields.io/badge/twitter-@fritzlabs-blue.svg?style=flat)](http://twitter.com/fritzlabs)
 
-Fritz is the machine learning platform for iOS and Android developers. This is our kitchen-sink application that showcases all the different ML features provided by Fritz as well as examples on using custom models.
+Fritz AI helps you teach your applications how to see, hear, feel, think, and sense. Create ML-powered features in your mobile apps for both Android and iOS. Start with our ready-to-use feature APIs or connect and deploy your own custom models.
 
-To download the latest version from the Google Play Store, [please visit our app page](https://play.google.com/store/apps/details?id=ai.fritz.heartbeat&hl=en_US).
+[Sign up](https://app.fritz.ai/register) for an account on Fritz AI in order to get started with machine learning in your apps.
+
 
 **Vision API: Prebuilt models that you can simply drop into your apps:**
 
@@ -56,10 +57,13 @@ With your Android device connected, select `Run > Run App` from the top nav. Aft
 
 [Android API Docs](https://docs.fritz.ai/android/latest/index.html)
 
+## Join the community
+
+[Heartbeat](https://heartbeat.fritz.ai/?utm_source=github&utm_campaign=fritz-models) is a community of developers interested in the intersection of mobile and machine learning. [Chat with us in Slack](https://join.slack.com/t/heartbeat-by-fritz/shared_invite/enQtMzY5OTM1MzgyODIzLTZhNTFjYmRiODU0NjZjNjJlOGRjYzI2OTIwY2M4YTBiNjM1ODU1ZmU3Y2Q2MmMzMmI2ZTIzZjQ1ZWI3NzBkZGU) and stay up to date on the latest mobile ML news with our [Newsletter](https://mobileml.us16.list-manage.com/subscribe?u=de53bead690affb8e9a21de8f&id=68acb5c0fd).
+
 ## Help
 
 For any questions or issues, you can:
-
 - Submit an issue on this repo
 - Go to our [Help Center](https://docs.fritz.ai/help-center/index.html)
-- Message us directly in [Slack](https://join.slack.com/t/heartbeat-by-fritz/shared_invite/enQtNTY5NDM2MTQwMTgwLTAyODE3MmQzZjU2NWE5MDNmYTgwM2E1MjU5Y2Y2NmI2YTlkMTMwZTAwYTAwMzQ5NzQ2NDBhZjhmYjU2YWY3OGU)
+- Message us directly in [Slack](https://heartbeat-by-fritz.slack.com/join/shared_invite/enQtNTY5NDM2MTQwMTgwLTAyODE3MmQzZjU2NWE5MDNmYTgwM2E1MjU5Y2Y2NmI2YTlkMTMwZTAwYTAwMzQ5NzQ2NDBhZjhmYjU2YWY3OGU)
