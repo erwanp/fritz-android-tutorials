@@ -18,8 +18,6 @@ This example app uses the on-device Object Detection API for Android.
 
 Fritz AI helps you teach your applications how to see, hear, feel, think, and sense. Create ML-powered features in your mobile apps for both Android and iOS. Start with our ready-to-use feature APIs or connect and deploy your own custom models.
 
-[Sign up](https://app.fritz.ai/register) for an account on Fritz AI in order to get started with machine learning in your apps.
-
 ## Requirements
 
 - Android Studio 3.2 or above
@@ -27,9 +25,9 @@ Fritz AI helps you teach your applications how to see, hear, feel, think, and se
 
 ## Getting Started
 
-**Step 1: Create a Fritz Account**
+**Step 1: Create a Fritz AI Account**
 
-In order to use Fritz, please [register for a free account](https://app.fritz.ai/register).
+[Sign up](https://app.fritz.ai/register) for an account on Fritz AI in order to get started.
 
 **Step 2: Clone / Fork the fritz-android-tutorials repository and open the PetMonitoringApp in Android Studio**
 
