@@ -5,9 +5,6 @@
 
 Fritz AI helps you teach your applications how to see, hear, feel, think, and sense. Create ML-powered features in your mobile apps for both Android and iOS. Start with our ready-to-use feature APIs or connect and deploy your own custom models.
 
-[Sign up](https://app.fritz.ai/register) for an account on Fritz AI in order to get started with machine learning in your apps.
-
-
 **Vision API: Prebuilt models that you can simply drop into your apps:**
 
 - [Image Segmentation](https://www.fritz.ai/features/image-segmentation.html): Create pixel level masks of different objects in a scene ([code](app/src/main/java/ai/fritz/heartbeat/activities/vision/ImageSegmentationActivity.java))
@@ -20,9 +17,9 @@ Fritz AI helps you teach your applications how to see, hear, feel, think, and se
 
 We currently support both TensorFlow Lite and TensorFlow Mobile for Android.
 
-- [Analytics and Monitoring](https://www.fritz.ai/features/analytics-monitoring.html): Monitor machine learning models running on-device with Fritz.
-- [Model Management](https://www.fritz.ai/features/model-management.html): Iterate on your ML models over-the-air, without having to release your app.
-- [Model Protection](https://www.fritz.ai/features/model-protection.html): Use model protection to keep models from being tampered-with or stolen.
+- [Analytics and Monitoring](https://www.fritz.ai/features/analytics-monitoring.html): Monitor machine learning models running on-device with Fritz AI
+- [Model Management](https://www.fritz.ai/features/model-management.html): Iterate on your ML models over-the-air, without having to release your app
+- [Model Protection](https://www.fritz.ai/features/model-protection.html): Use model protection to keep models from being tampered-with or stolen
 
 ## Requirements
 
@@ -31,9 +28,9 @@ We currently support both TensorFlow Lite and TensorFlow Mobile for Android.
 
 ## Getting Started
 
-**Step 1: Create a Fritz Account**
+**Step 1: Create a Fritz AI Account**
 
-In order to use Fritz, please [register for a free account](https://app.fritz.ai/register).
+[Sign up](https://app.fritz.ai/register) for an account on Fritz AI in order to get started.
 
 **Step 2: Clone / Fork the fritz-android-tutorials repository and open the demo app in Android Studio**
 
