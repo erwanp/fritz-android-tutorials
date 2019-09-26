@@ -3,8 +3,8 @@
     <!-- In the MainActivity -->
     <string name="demo_title">Heartbeat</string>
 
-    <string name="fritz_vision_style_transfer">Style Transfer</string>
-    <string name="fritz_vision_style_transfer_description">Run style transfer on live video feed.</string>
+    <string name="fritz_vision_style_transfer">Renaissance</string>
+    <string name="fritz_vision_style_transfer_description">Choisis ton siècle.</string>
 
     <string name="fritz_vision_title">Image Labeling</string>
     <string name="fritz_vision_description">Label a still image.</string>

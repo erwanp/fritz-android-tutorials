@@ -70,25 +70,7 @@ public class MainActivity extends AppCompatActivity {
     private List<DemoItem> getDemoItems() {
         // Add different demo items here
         List<DemoItem> demoItems = new ArrayList<>();
-        demoItems.add(new DemoItem(
-                getString(R.string.fritz_vision_title),
-                getString(R.string.fritz_vision_description_live_video),
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        logger.info("FRITZ VISION LIVE VIDEO");
-                        Navigation.goToLabelingActivity(v.getContext());
-                    }
-                }));
-        demoItems.add(new DemoItem(
-                getString(R.string.fritz_object_detection_title),
-                getString(R.string.fritz_object_detection_description),
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Navigation.goToObjectDetection(v.getContext());
-                    }
-                }));
+
         demoItems.add(new DemoItem(
                 getString(R.string.fritz_vision_style_transfer),
                 getString(R.string.fritz_vision_style_transfer_description),
@@ -96,51 +78,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         Navigation.goToStyleTransfer(v.getContext());
-                    }
-                }));
-        demoItems.add(new DemoItem(
-                getString(R.string.fritz_hair_color_title),
-                getString(R.string.fritz_hair_color_description),
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Navigation.goToHairSegmentation(v.getContext());
-                    }
-                }));
-        demoItems.add(new DemoItem(
-                getString(R.string.fritz_vision_img_seg_title),
-                getString(R.string.fritz_vision_img_seg_description),
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Navigation.goToImageSegmentation(v.getContext());
-                    }
-                }));
-        demoItems.add(new DemoItem(
-                getString(R.string.fritz_pose_estimation_title),
-                getString(R.string.fritz_pose_estimation_description),
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Navigation.goToPoseEstimation(v.getContext());
-                    }
-                }));
-        demoItems.add(new DemoItem(
-                getString(R.string.fritz_customtfmobile_title),
-                getString(R.string.fritz_customtfmobile_description),
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Navigation.goToTFMobile(v.getContext());
-                    }
-                }));
-        demoItems.add(new DemoItem(
-                getString(R.string.fritz_customtflite_title),
-                getString(R.string.fritz_customtflite_description),
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Navigation.goToTFLite(v.getContext());
                     }
                 }));
         demoItems.add(new DemoItem(
