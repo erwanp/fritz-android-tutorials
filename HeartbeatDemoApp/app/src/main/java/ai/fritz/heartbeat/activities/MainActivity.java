@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
  */
 public class MainActivity extends AppCompatActivity {
 
-    private static final String FRITZ_URL = "https://fritz.ai";
+    private static final String FRITZ_URL = "https://sites.google.com/view/renaissance19";
 
     private Logger logger = Logger.getLogger(this.getClass().getName());
 
