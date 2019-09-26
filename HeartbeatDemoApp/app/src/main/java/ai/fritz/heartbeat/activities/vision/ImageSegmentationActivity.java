@@ -16,9 +16,9 @@ import ai.fritz.vision.FritzVisionImage;
 import ai.fritz.vision.PredictorStatusListener;
 import ai.fritz.vision.imagesegmentation.FritzVisionSegmentationPredictor;
 import ai.fritz.vision.imagesegmentation.FritzVisionSegmentationResult;
-import ai.fritz.vision.imagesegmentation.LivingRoomSegmentationManagedModelFast;
-import ai.fritz.vision.imagesegmentation.OutdoorSegmentationManagedModelFast;
-import ai.fritz.vision.imagesegmentation.PeopleSegmentationManagedModelFast;
+import ai.fritz.vision.imagesegmentation.livingroomsegmentation.LivingRoomSegmentationManagedModelFast;
+import ai.fritz.vision.imagesegmentation.outdoorsegmentation.OutdoorSegmentationManagedModelFast;
+import ai.fritz.vision.imagesegmentation.peoplesegmentation.PeopleSegmentationManagedModelFast;
 import ai.fritz.vision.imagesegmentation.SegmentationManagedModel;
 import ai.fritz.vision.imagesegmentation.SegmentationOnDeviceModel;
 
