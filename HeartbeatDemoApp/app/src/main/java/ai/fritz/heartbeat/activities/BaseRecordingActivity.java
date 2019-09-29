@@ -103,7 +103,7 @@ public abstract class BaseRecordingActivity extends BaseCameraActivity implement
             public void processVisionImage(FritzVisionImage visionImage) {
                 Bitmap result = runPrediction(visionImage, cameraViewSize);
                 processedBitmaps.add(result);
-                Log.d(TAG, "Processed Frame #: " + processedBitmaps.size());
+                //Log.d(TAG, "Processed Frame #: " + processedBitmaps.size());
 
                 if (!isRecording.get()) {
                     processingVideoProgress.setProgress(++processingProgress);
@@ -112,7 +112,7 @@ public abstract class BaseRecordingActivity extends BaseCameraActivity implement
 
             @Override
             public void finishedProcessing() {
-                Log.d(TAG, "Finished processing video clips");
+                //Log.d(TAG, "Finished processing video clips");
                 finishProcessing();
             }
         });
@@ -300,7 +300,7 @@ public abstract class BaseRecordingActivity extends BaseCameraActivity implement
         lastRecordedFrameAt.set(System.currentTimeMillis());
         final FritzVisionImage fritzImage = FritzVisionImage.fromMediaImage(image, imageRotationFromCamera);
         videoProcessingQueue.addVisionImage(fritzImage);
-        image.close();
+        image.close(); 
     }
 }
 

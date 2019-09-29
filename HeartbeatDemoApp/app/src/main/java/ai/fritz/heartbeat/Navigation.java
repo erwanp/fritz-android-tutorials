@@ -3,6 +3,7 @@ package ai.fritz.heartbeat;
 import android.content.Context;
 import android.content.Intent;
 
+import ai.fritz.heartbeat.activities.StyleTranserLiveActivity;
 import ai.fritz.heartbeat.activities.custommodel.CustomTFLiteActivity;
 import ai.fritz.heartbeat.activities.custommodel.CustomTFMobileActivity;
 import ai.fritz.heartbeat.activities.vision.HairSegmentationActivity;
@@ -33,7 +34,7 @@ public class Navigation {
     }
 
     public static void goToStyleTransfer(Context context) {
-        Intent styleActivity = new Intent(context, StyleTransferActivity.class);
+        Intent styleActivity = new Intent(context, StyleTranserLiveActivity.class);
         context.startActivity(styleActivity);
     }
 
