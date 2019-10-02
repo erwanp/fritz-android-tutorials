@@ -6,10 +6,14 @@ import android.graphics.RectF;
 import android.media.Image;
 import android.media.ImageReader;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Size;
 import android.widget.Button;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.io.File;
+import java.util.Random;
+import java.io.FileOutputStream;
 
 import ai.fritz.core.FritzOnDeviceModel;
 import ai.fritz.fritzvisionhairsegmentationmodel.HairSegmentationOnDeviceModelFast;
@@ -108,4 +112,29 @@ public class StyleTranserLiveActivity  extends BaseCameraActivity implements Ima
         FritzVisionStyleResult styleResult = predictor.predict(visionImage);
         resultImage = styleResult.toBitmap();
     }
+
+
+    public static void SaveImage(Bitmap finalBitmap) {
+        String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root + "/saved_images");
+        myDir.mkdirs();
+        Random generator = new Random();
+        int n = 10000;
+        n = generator.nextInt(n);
+        String fname = "Image-" + n + ".jpg";
+        File file = new File(myDir, fname);
+        if (file.exists()) file.delete();
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            out.flush();
+            out.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
+
+
