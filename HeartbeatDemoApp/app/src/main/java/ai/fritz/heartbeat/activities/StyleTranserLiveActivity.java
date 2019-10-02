@@ -8,6 +8,7 @@ import android.media.ImageReader;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Size;
+import android.view.View;
 import android.widget.Button;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -41,6 +42,12 @@ public class StyleTranserLiveActivity  extends BaseCameraActivity implements Ima
     private Bitmap resultImage;
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        findViewById(R.id.camera_container).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SaveImage(resultImage);
+            }
+        });
     }
 
     @Override
