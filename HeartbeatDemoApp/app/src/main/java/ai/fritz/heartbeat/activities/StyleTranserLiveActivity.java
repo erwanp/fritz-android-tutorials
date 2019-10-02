@@ -47,12 +47,12 @@ public class StyleTranserLiveActivity  extends BaseCameraActivity implements Ima
     protected void onPreviewSizeChosen(Size previewSize, final Size cameraViewSize, int rotation) {
         imageRotation = FritzVisionOrientation.getImageRotationFromCamera(this, cameraId);
         chooseModelBtn = findViewById(R.id.chose_model_btn);
-
+        final Size resized = new Size(cameraViewSize.getWidth(), cameraViewSize.getHeight()/2);
         setCallback(
                 new OverlayView.DrawCallback() {
                     @Override
                     public void drawCallback(final Canvas canvas) {
-                        handleDrawingResult(canvas, cameraViewSize);
+                        handleDrawingResult(canvas, resized);
                     }
                 });
 
@@ -72,8 +72,10 @@ public class StyleTranserLiveActivity  extends BaseCameraActivity implements Ima
     }
 
     protected void handleDrawingResult(Canvas canvas, Size cameraSize) {
-        if (resultImage != null)
+        if (resultImage != null) {
             canvas.drawBitmap(resultImage, null, new RectF(0, 0, cameraSize.getWidth(), cameraSize.getHeight()), null);
+            canvas.drawBitmap(resultImage, null, new RectF(0, cameraSize.getHeight(), cameraSize.getWidth(), cameraSize.getHeight()*2), null);
+        }
     }
 
     @Override
