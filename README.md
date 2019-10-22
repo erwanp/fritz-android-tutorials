@@ -1,3 +1,6 @@
+*🎨 (adapting HeatBeat for a small project) re-built from scratch at > https://github.com/maydixit/ArtNU*
+
+
 # Fritz Android Tutorials
 
 Fritz AI helps you teach your applications how to see, hear, feel, think, and sense. Create ML-powered features in your mobile apps for both Android and iOS. Start with our ready-to-use feature APIs or connect and deploy your own custom models.
